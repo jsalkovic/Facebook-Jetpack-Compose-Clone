@@ -20,6 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import hr.josip.composeapp.R
 import hr.josip.composeapp.data.model.feed.response.Story
+import hr.josip.composeapp.ui.common.CircleImage
+import hr.josip.composeapp.ui.common.CircleImageRes
 import hr.josip.composeapp.ui.shared.compose.GlideImage
 import hr.josip.composeapp.ui.shared.compose.blue
 
@@ -40,14 +42,14 @@ fun StoryItem(story: Story, onClick: () -> Unit) {
 private fun ShowReadStory(story: Story, onClick: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(60.dp).padding(4.dp)
+        modifier = Modifier.preferredWidth(62.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ShowStoryImage(story.user.avatarUrl, onClick)
+            CircleImage(url = story.user.avatarUrl, onClick = onClick)
             Text(
                 text = story.user.name,
                 style = MaterialTheme.typography.caption,
@@ -62,7 +64,7 @@ private fun ShowReadStory(story: Story, onClick: () -> Unit) {
 private fun ShowUnreadStory(story: Story, onClick: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(62.dp).padding(4.dp)
+        modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -74,7 +76,7 @@ private fun ShowUnreadStory(story: Story, onClick: () -> Unit) {
                     .background(MaterialTheme.colors.surface)
                     .border(width = 3.dp, color = blue, shape = CircleShape)
             ) {
-                ShowStoryImage(story.user.avatarUrl, onClick)
+                CircleImage(url = story.user.avatarUrl, onClick = onClick)
             }
             Text(
                 textAlign = TextAlign.Center,
@@ -87,20 +89,13 @@ private fun ShowUnreadStory(story: Story, onClick: () -> Unit) {
     }
 }
 
-@Composable
-private fun ShowStoryImage(avatarUrl: String, onClick: () -> Unit) {
-    GlideImage(
-        model = avatarUrl,
-        modifier = Modifier.preferredSize(56.dp).clip(CircleShape).padding(4.dp)
-            .clickable(onClick = onClick)
-    )
-}
+
 
 @Composable
 private fun AddNewStory(onClick: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(60.dp).padding(4.dp)
+        modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -108,12 +103,7 @@ private fun AddNewStory(onClick: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier.fillMaxWidth().clip(CircleShape)) {
-                    Image(
-                        asset = imageResource(id = R.drawable.avatar),
-                        modifier = Modifier.preferredSize(56.dp)
-                    )
-                }
+                CircleImageRes(resId = R.drawable.user_avatar)
                 Box(
                     modifier = Modifier.preferredSize(20.dp).clip(CircleShape)
                         .background(blue)

@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun GlideImage(
     model: Any,
-    size: Size = Size(56, 56),
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
     alignment: Alignment = Alignment.Center,
@@ -62,7 +61,6 @@ fun GlideImage(
                 glide
                     .asBitmap()
                     .load(model)
-                    .override(size.width, size.height)
                     .let(customize)
                     .into(target!!)
             }

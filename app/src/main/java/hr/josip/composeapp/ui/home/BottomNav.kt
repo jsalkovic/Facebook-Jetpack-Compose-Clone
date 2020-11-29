@@ -20,6 +20,8 @@ import androidx.navigation.compose.KEY_ROUTE
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigate
 import hr.josip.composeapp.R
+import hr.josip.composeapp.ui.common.CircleImage
+import hr.josip.composeapp.ui.common.CircleImageRes
 import hr.josip.composeapp.ui.shared.compose.blue
 import hr.josip.composeapp.ui.shared.compose.darkGrey
 
@@ -59,20 +61,27 @@ fun SetupBottomNav(navController: NavHostController) {
                 unselectedContentColor = if (screen == HomeScreen.Profile) Color.Transparent else darkGrey,
                 icon = {
                     if (screen is HomeScreen.Profile)
-                        Image(
-                            imageResource(id = R.drawable.avatar),
-                            modifier = Modifier.padding(16.dp),
+                        CircleImageRes(
+                            resId = R.drawable.user_avatar,
+                            padding = 16.dp,
+                            onClick = { navigateToProfile(navController, currentRoute, screen) }
                         )
                     else Icon(asset = vectorResource(id = screen.drawableId))
                 },
                 selected = currentRoute == screen.route,
-                onClick = {
-                    navController.popBackStack(navController.graph.startDestination, false)
-                    if (currentRoute != screen.route) {
-                        navController.navigate(screen.route)
-                    }
-                }
+                onClick = { navigateToProfile(navController, currentRoute, screen) }
             )
         }
+    }
+}
+
+private fun navigateToProfile(
+    navController: NavHostController,
+    currentRoute: String?,
+    screen: HomeScreen
+) {
+    navController.popBackStack(navController.graph.startDestination, false)
+    if (currentRoute != screen.route) {
+        navController.navigate(screen.route)
     }
 }

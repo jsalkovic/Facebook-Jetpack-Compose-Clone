@@ -15,10 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import hr.josip.composeapp.R
-import hr.josip.composeapp.ui.shared.compose.darkGrey
-import hr.josip.composeapp.ui.shared.compose.lightGrey
 
 @Composable
 fun Status(onStatusClick: () -> Unit) {
@@ -33,7 +30,7 @@ fun Status(onStatusClick: () -> Unit) {
                 elevation = 0.dp
             ) {
                 Image(
-                    imageResource(id = R.drawable.avatar),
+                    imageResource(id = R.drawable.user_avatar),
                     contentScale = ContentScale.Crop
                 )
             }

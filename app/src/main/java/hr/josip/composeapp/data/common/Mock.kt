@@ -1,5 +1,6 @@
 package hr.josip.composeapp.data.common
 
+import hr.josip.composeapp.data.model.feed.response.Post
 import hr.josip.composeapp.data.model.feed.response.Story
 
 object Mock {
@@ -23,7 +24,7 @@ object Mock {
                     user = User(
                         id = 1,
                         name = "Android",
-                        avatarUrl = "https://download.logo.wine/logo/Android_(operating_system)/Android_(operating_system)-Robot-Logo.wine.png"
+                        avatarUrl = "https://download.logo.wine/logo/Android_(operating_system)/Android_(operating_system)-Robot-Logo.wine.png",
                     ), isRead = false
                 )
             )
@@ -70,6 +71,32 @@ object Mock {
 
         }
         return stories
+    }
+
+    fun getPosts(): List<Post> {
+        val posts = arrayListOf<Post>()
+        posts.apply {
+            add(
+                Post(
+                    id = 0,
+                    user = User(
+                        id = 1,
+                        name = "Android Developers",
+                        avatarUrl = "https://pbs.twimg.com/profile_images/1168932726461935621/VRtfrDXq_400x400.png",
+                    ),
+                    text = "Meet Jetpack Compose, our new UI toolkit, now in alpha! See how ...\n" +
+                        "\n" +
+                        "✏️ It's written entirely in @Kotlin\n" +
+                        "\uD83D\uDDA5️ Is unbundled from OS\n" +
+                        "\uD83D\uDC68\u200D\uD83D\uDCBB Embraces a declarative programming model\n" +
+                        "\uD83D\uDE0E And more!\n" +
+                        "\n" +
+                        "Learn more → goo.gle/2YA7heU",
+                    imageUrl = "https://on.notist.cloud/slides/deck3159/large-0.jpg"
+                )
+            )
+        }
+        return posts
     }
 }
 
