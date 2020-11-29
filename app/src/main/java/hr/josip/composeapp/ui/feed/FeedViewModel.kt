@@ -9,14 +9,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FeedViewModel @ViewModelInject constructor(private val getFeedUseCase: UseCases.GetFeedUseCase) :
-    BaseViewModel<FeedState>() {
-
-    override fun provideDefaultState(): FeedState = FeedState()
+    BaseViewModel<FeedState, FeedEvent>() {
 
     fun getFeed() = viewModelScope.launch {
         showLoading()
-        state =
-            state.copy(feed = withContext(Dispatchers.IO) { getFeedUseCase.execute(Unit) })
+        viewState = FeedState(feed = withContext(Dispatchers.IO) { getFeedUseCase.execute(Unit) })
         showIdle()
     }
 

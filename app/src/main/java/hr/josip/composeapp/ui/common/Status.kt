@@ -28,7 +28,7 @@ fun Status(onStatusClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Card(
-                modifier = Modifier.preferredSize(56.dp).then(Modifier.padding(8.dp)),
+                modifier = Modifier.preferredSize(56.dp).padding(8.dp),
                 shape = CircleShape,
                 elevation = 0.dp
             ) {
@@ -38,13 +38,10 @@ fun Status(onStatusClick: () -> Unit) {
                 )
             }
             Card(
-                modifier = Modifier.fillMaxWidth().then(
-                    Modifier.padding(horizontal = 8.dp, vertical = 8.dp).then(
-                        Modifier.clickable(
-                            onClick = onStatusClick
-                        )
-                    )
-                ),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+                    .clickable(
+                        onClick = onStatusClick
+                    ),
                 backgroundColor = MaterialTheme.colors.secondary,
                 elevation = 0.dp
             ) {

@@ -30,12 +30,12 @@ fun Splash(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                modifier = Modifier.width(56.dp).then(Modifier.height(56.dp)),
+                modifier = Modifier.width(56.dp).height(56.dp),
                 asset = vectorResource(id = R.drawable.ic_facebook)
             )
             Spacer(modifier = Modifier.height(16.dp))
             CircularProgressIndicator(
-                modifier = Modifier.width(23.dp).then(Modifier.height(23.dp)),
+                modifier = Modifier.width(23.dp).height(23.dp),
                 strokeWidth = 2.dp,
                 color = blue
             )

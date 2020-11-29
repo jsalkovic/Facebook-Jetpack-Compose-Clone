@@ -7,14 +7,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-abstract class BaseViewModel<ViewState> : ViewModel() {
+abstract class BaseViewModel<ViewState, ViewEvent> : ViewModel() {
 
-    protected abstract fun provideDefaultState(): ViewState
+    //internal states
+    var viewState by mutableStateOf<ViewState?>(null)
+    var commonState by mutableStateOf<CommonState?>(null)
+    var viewEvent by mutableStateOf<ViewEvent?>(null)
+    //endregion
 
-    var viewState by mutableStateOf(provideDefaultState())
+    //exposed observing states
+    /*val viewStateHolder: State<ViewState?> = mutableStateOf(viewState)
+    val commonStateHolder: State<CommonState?> = mutableStateOf(commonState)
+    val viewEventHolder: State<ViewEvent?> = mutableStateOf(viewEvent)*/
+    //endregion
 
-    var commonState by mutableStateOf<CommonState>(CommonState.Idle)
-
+    //common state methods
     protected fun showLoading() {
         commonState = CommonState.Loading
     }
@@ -30,5 +37,6 @@ abstract class BaseViewModel<ViewState> : ViewModel() {
     protected fun showEmpty(emptyMessage: String = "") {
         commonState = CommonState.Empty(emptyMessage = emptyMessage)
     }
+    //endregion
 
 }

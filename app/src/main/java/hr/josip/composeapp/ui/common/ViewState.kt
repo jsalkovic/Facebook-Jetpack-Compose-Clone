@@ -4,16 +4,39 @@ import androidx.compose.runtime.Composable
 import hr.josip.composeapp.ui.shared.base.*
 
 @Composable
-fun <T> WithViewState(
-    viewModel: BaseViewModel<T>,
-    commonState: CommonState = viewModel.commonState,
-    viewState: T = viewModel.viewState,
-    onChanged: (@Composable (T) -> Unit)
+fun <ViewState, ViewEvent> WithViewState(
+    viewModel: BaseViewModel<ViewState, ViewEvent>,
+    commonStateHolder: CommonState? = viewModel.commonState,
+    viewState: ViewState? = viewModel.viewState,
+    eventState: ViewEvent? = viewModel.viewEvent,
+    viewStateChanged: (@Composable (ViewState) -> Unit),
+    eventStateChanged: (@Composable (ViewEvent) -> Unit)
 ) {
-    when (commonState) {
-        CommonState.Loading -> Loading()
-        is CommonState.Empty -> Empty(commonState.emptyMessage)
-        is CommonState.Error -> Error(commonState.errorMessage)
-        CommonState.Idle -> viewState.also { value -> onChanged.invoke(value) }
+    commonStateHolder.let { commonState ->
+        when (commonState) {
+            CommonState.Loading -> Loading()
+            is CommonState.Empty -> Empty(commonState.emptyMessage)
+            is CommonState.Error -> Error(commonState.errorMessage)
+            CommonState.Idle -> {
+                HandleViewState(viewState, viewStateChanged)
+                HandleViewEvent(eventState, eventStateChanged)
+            }
+            else -> Unit
+        }
     }
+
 }
+
+@Composable
+private fun <ViewState> HandleViewState(
+    viewState: ViewState?,
+    viewStateChanged: (@Composable (ViewState) -> Unit)
+) =
+    viewState?.let { state -> viewStateChanged.invoke(state) }
+
+@Composable
+private fun <ViewEvent> HandleViewEvent(
+    eventState: ViewEvent?,
+    eventStateChanged: (@Composable (ViewEvent) -> Unit)
+) =
+    eventState?.let { event -> eventStateChanged.invoke(event) }
