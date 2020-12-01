@@ -16,6 +16,11 @@
     <string name="tab_groups">GROUPS</string>
     <string name="tab_watch">WATCH</string>
 
+    <!-- Stories -->
     <string name="new_story">Add</string>
+
+    <!-- Dialogs -->
+    <string name="confirm_button_text">OK</string>
+    <string name="dismiss_button_text">Cancel</string>
 
 </resources>

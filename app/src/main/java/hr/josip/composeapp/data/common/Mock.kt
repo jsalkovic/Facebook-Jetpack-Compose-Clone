@@ -96,6 +96,25 @@ object Mock {
                     imageUrl = "https://on.notist.cloud/slides/deck3159/large-0.jpg"
                 )
             )
+            add(
+                PostModel(
+                    id = 0,
+                    user = User(
+                        id = 1,
+                        name = "Android Developers",
+                        avatarUrl = "https://pbs.twimg.com/profile_images/1168932726461935621/VRtfrDXq_400x400.png",
+                    ),
+                    text = "Meet Jetpack Compose, our new UI toolkit, now in alpha! See how ...\n" +
+                        "\n" +
+                        "✏️ It's written entirely in @Kotlin\n" +
+                        "\uD83D\uDDA5️ Is unbundled from OS\n" +
+                        "\uD83D\uDC68\u200D\uD83D\uDCBB Embraces a declarative programming model\n" +
+                        "\uD83D\uDE0E And more!\n" +
+                        "\n" +
+                        "Learn more → goo.gle/2YA7heU",
+                    imageUrl = "https://on.notist.cloud/slides/deck3159/large-0.jpg"
+                )
+            )
         }
         return posts
     }

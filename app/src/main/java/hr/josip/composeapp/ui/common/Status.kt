@@ -29,10 +29,7 @@ fun Status(onStatusClick: () -> Unit) {
                 shape = CircleShape,
                 elevation = 0.dp
             ) {
-                Image(
-                    imageResource(id = R.drawable.user_avatar),
-                    contentScale = ContentScale.Crop
-                )
+                CircleImage(model = R.drawable.user_avatar)
             }
             Card(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)

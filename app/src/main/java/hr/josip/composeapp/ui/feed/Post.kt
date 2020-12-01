@@ -21,7 +21,7 @@ import java.util.*
 fun PostItem(postModel: PostModel, onClick: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             AddUserDetails(postModel)
@@ -36,7 +36,7 @@ private fun AddUserDetails(postModel: PostModel) {
         modifier = Modifier.fillMaxWidth().padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CircleImage(url = postModel.user.avatarUrl)
+        CircleImage(model = postModel.user.avatarUrl)
         Column(
             modifier = Modifier.fillMaxWidth().padding(start = 8.dp),
         ) {

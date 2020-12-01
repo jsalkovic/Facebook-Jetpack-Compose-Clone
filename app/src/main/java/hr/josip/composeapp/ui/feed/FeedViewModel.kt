@@ -15,7 +15,11 @@ import kotlinx.coroutines.withContext
 class FeedViewModel @ViewModelInject constructor(private val getFeedUseCase: UseCases.GetFeedUseCase) :
     BaseViewModel<FeedState, FeedEvent>() {
 
-    fun getFeed() = viewModelScope.launch {
+    fun init(){
+        if (viewState == null) getFeed()
+    }
+
+    private fun getFeed() = viewModelScope.launch {
         showLoading()
         delay(1500)
         viewState =

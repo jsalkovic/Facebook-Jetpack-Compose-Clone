@@ -22,33 +22,43 @@ import hr.josip.composeapp.R
 import hr.josip.composeapp.data.model.feed.response.StoryModel
 import hr.josip.composeapp.data.model.feed.response.StoryState
 import hr.josip.composeapp.ui.common.CircleImage
-import hr.josip.composeapp.ui.common.CircleImageRes
 import hr.josip.composeapp.ui.shared.compose.blue
+import hr.josip.composeapp.ui.shared.compose.lightGrey
 
 @Composable
 fun StoryItem(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
     if (storyModel.id == 0) {
-        AddNewStory(storyModel, onClick)
+        NewStory(storyModel, onClick)
     } else when (storyModel.storyState) {
-        StoryState.UNREAD -> ShowUnreadStory(storyModel = storyModel, onClick = onClick)
-        StoryState.LOADING -> ShowLoadingStory(storyModel)
-        StoryState.READ -> ShowReadStory(storyModel = storyModel, onClick = onClick)
+        StoryState.UNREAD -> UnreadStory(storyModel = storyModel, onClick = onClick)
+        StoryState.LOADING -> LoadingStory(storyModel)
+        StoryState.READ -> ReadStory(storyModel = storyModel, onClick = onClick)
     }
 }
 
 @Composable
-private fun ShowReadStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
+private fun ReadStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(62.dp).padding(4.dp)
-            .clickable(onClick = { onClick.invoke(storyModel) })
+        modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CircleImage(url = storyModel.user.avatarUrl)
+            Box(
+                modifier = Modifier.fillMaxWidth().clip(CircleShape)
+                    .background(MaterialTheme.colors.surface)
+                    .border(
+                        width = 3.dp,
+                        color = lightGrey,
+                        shape = CircleShape
+                    )
+                    .clickable(onClick = { onClick.invoke(storyModel) })
+            ) {
+                CircleImage(model = storyModel.user.avatarUrl)
+            }
             Text(
                 text = storyModel.user.name,
                 style = MaterialTheme.typography.caption,
@@ -60,11 +70,10 @@ private fun ShowReadStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit)
 }
 
 @Composable
-private fun ShowUnreadStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
+private fun UnreadStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
-            .clickable(onClick = { onClick.invoke(storyModel) })
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -75,8 +84,9 @@ private fun ShowUnreadStory(storyModel: StoryModel, onClick: (StoryModel) -> Uni
                 modifier = Modifier.fillMaxWidth().clip(CircleShape)
                     .background(MaterialTheme.colors.surface)
                     .border(width = 3.dp, color = blue, shape = CircleShape)
+                    .clickable(onClick = { onClick.invoke(storyModel) })
             ) {
-                CircleImage(url = storyModel.user.avatarUrl)
+                CircleImage(model = storyModel.user.avatarUrl)
             }
             Text(
                 textAlign = TextAlign.Center,
@@ -90,7 +100,7 @@ private fun ShowUnreadStory(storyModel: StoryModel, onClick: (StoryModel) -> Uni
 }
 
 @Composable
-fun ShowLoadingStory(storyModel: StoryModel) {
+private fun LoadingStory(storyModel: StoryModel) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
@@ -105,11 +115,11 @@ fun ShowLoadingStory(storyModel: StoryModel) {
                     .background(MaterialTheme.colors.surface)
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.preferredSize(58.dp),
+                    modifier = Modifier.preferredSize(56.dp),
                     strokeWidth = 3.dp,
                     color = blue
                 )
-                CircleImage(url = storyModel.user.avatarUrl)
+                CircleImage(model = storyModel.user.avatarUrl)
             }
             Text(
                 textAlign = TextAlign.Center,
@@ -123,11 +133,10 @@ fun ShowLoadingStory(storyModel: StoryModel) {
 }
 
 @Composable
-private fun AddNewStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
+private fun NewStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
-            .clickable(onClick = { onClick.invoke(storyModel) })
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -135,10 +144,10 @@ private fun AddNewStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier.fillMaxWidth().clip(CircleShape)
+                modifier = Modifier.fillMaxWidth()
                     .clickable(onClick = { onClick.invoke(storyModel) })
             ) {
-                CircleImageRes(resId = R.drawable.user_avatar)
+                CircleImage(model = R.drawable.user_avatar)
                 Box(
                     modifier = Modifier.preferredSize(20.dp).clip(CircleShape)
                         .background(blue)

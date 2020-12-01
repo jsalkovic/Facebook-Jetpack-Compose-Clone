@@ -21,7 +21,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigate
 import hr.josip.composeapp.R
 import hr.josip.composeapp.ui.common.CircleImage
-import hr.josip.composeapp.ui.common.CircleImageRes
 import hr.josip.composeapp.ui.shared.compose.blue
 import hr.josip.composeapp.ui.shared.compose.darkGrey
 
@@ -61,8 +60,8 @@ fun SetupBottomNav(navController: NavHostController) {
                 unselectedContentColor = if (screen == HomeScreen.Profile) Color.Transparent else darkGrey,
                 icon = {
                     if (screen is HomeScreen.Profile)
-                        CircleImageRes(
-                            resId = R.drawable.user_avatar,
+                        CircleImage(
+                            model = R.drawable.user_avatar,
                             padding = 16.dp
                         )
                     else Icon(asset = vectorResource(id = screen.drawableId))

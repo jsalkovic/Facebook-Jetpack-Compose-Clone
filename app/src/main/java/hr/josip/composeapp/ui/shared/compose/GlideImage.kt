@@ -2,9 +2,11 @@ package hr.josip.composeapp.ui.shared.compose
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.util.Size
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,6 +19,7 @@ import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.IntSize
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.bumptech.glide.request.transition.Transition
@@ -33,6 +36,7 @@ fun GlideImage(
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
     onImageReady: (() -> Unit)? = null,
+    requestOptions: RequestOptions = RequestOptions(),
     customize: RequestBuilder<Bitmap>.() -> RequestBuilder<Bitmap> = { this },
 ) {
     WithConstraints {
@@ -72,6 +76,7 @@ fun GlideImage(
                     .load(model)
                     .override(size.width, size.height)
                     .let(customize)
+                    .apply(requestOptions)
                     .into(target!!)
             }
 
@@ -105,22 +110,28 @@ private fun ActiveImage(
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
 ) {
-    if (image != null) {
-        Image(
-            asset = image,
-            modifier = modifier,
-            contentScale = contentScale,
-            alignment = alignment,
-            alpha = alpha,
-            colorFilter = colorFilter
-        )
-    } else if (drawable != null) {
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-                .then(modifier)
-        ) {
-            drawIntoCanvas { drawable.draw(it.nativeCanvas) }
+    when {
+        image != null -> Crossfade(current = Unit) {
+            Image(
+                asset = image,
+                modifier = modifier,
+                contentScale = contentScale,
+                alignment = alignment,
+                alpha = alpha,
+                colorFilter = colorFilter
+            )
+        }
+        drawable != null -> Crossfade(current = Unit) {
+            Canvas(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(modifier)
+            ) {
+                drawIntoCanvas { drawable.draw(it.nativeCanvas) }
+            }
+        }
+        else -> Crossfade(current = Unit) {
+            Box(modifier = modifier.background(Color.Transparent))
         }
     }
 }
