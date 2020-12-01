@@ -1,27 +1,27 @@
 package hr.josip.composeapp.ui.common
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import hr.josip.composeapp.ui.shared.base.*
 
 @Composable
 fun <ViewState, ViewEvent> WithViewState(
     viewModel: BaseViewModel<ViewState, ViewEvent>,
-    commonStateHolder: CommonState? = viewModel.commonState,
-    viewState: ViewState? = viewModel.viewState,
-    eventState: ViewEvent? = viewModel.viewEvent,
+    commonStateHolder: State<CommonState?> = viewModel.commonStateHolder().observeAsState(),
+    viewStateHolder : State < ViewState ? > = viewModel . viewStateHolder ().observeAsState(),
+    viewEventStateHolder: State<ViewEvent?> = viewModel.viewEventHolder().observeAsState(),
     viewStateChanged: (@Composable (ViewState) -> Unit),
-    eventStateChanged: (@Composable (ViewEvent) -> Unit)
+    viewEventOccurred: (@Composable (ViewEvent) -> Unit)
 ) {
-    commonStateHolder.let { commonState ->
+    commonStateHolder.value?.let { commonState ->
         when (commonState) {
             CommonState.Loading -> Loading()
             is CommonState.Empty -> Empty(commonState.emptyMessage)
             is CommonState.Error -> Error(commonState.errorMessage)
             CommonState.Idle -> {
-                HandleViewState(viewState, viewStateChanged)
-                HandleViewEvent(eventState, eventStateChanged)
+                HandleViewState(viewStateHolder, viewStateChanged)
+                HandleViewEvent(viewEventStateHolder, viewEventOccurred)
             }
-            else -> Unit
         }
     }
 
@@ -29,14 +29,13 @@ fun <ViewState, ViewEvent> WithViewState(
 
 @Composable
 private fun <ViewState> HandleViewState(
-    viewState: ViewState?,
+    viewStateHolder: State<ViewState?>,
     viewStateChanged: (@Composable (ViewState) -> Unit)
-) =
-    viewState?.let { state -> viewStateChanged.invoke(state) }
+) = viewStateHolder.value?.let { viewState -> viewStateChanged.invoke(viewState) }
+
 
 @Composable
 private fun <ViewEvent> HandleViewEvent(
-    eventState: ViewEvent?,
+    eventStateHolder: State<ViewEvent?>,
     eventStateChanged: (@Composable (ViewEvent) -> Unit)
-) =
-    eventState?.let { event -> eventStateChanged.invoke(event) }
+) = eventStateHolder.value?.let { viewEvent -> eventStateChanged.invoke(viewEvent) }

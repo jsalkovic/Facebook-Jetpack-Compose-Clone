@@ -2,24 +2,40 @@
 
 package hr.josip.composeapp.ui.shared.base
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel<ViewState, ViewEvent> : ViewModel() {
 
-    //internal states
-    var viewState by mutableStateOf<ViewState?>(null)
-    var commonState by mutableStateOf<CommonState?>(null)
-    var viewEvent by mutableStateOf<ViewEvent?>(null)
+    // private live dates
+    private val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData()
+    private val commonStateLiveData: MutableLiveData<CommonState> = MutableLiveData()
+    private val viewEventLiveData: LiveEvent<ViewEvent> = LiveEvent()
     //endregion
 
-    //exposed observing states
-    /*val viewStateHolder: State<ViewState?> = mutableStateOf(viewState)
-    val commonStateHolder: State<CommonState?> = mutableStateOf(commonState)
-    val viewEventHolder: State<ViewEvent?> = mutableStateOf(viewEvent)*/
+    // exposed observable states and events
+    fun viewStateHolder(): LiveData<ViewState> = viewStateLiveData
+    fun commonStateHolder(): LiveData<CommonState> = commonStateLiveData
+    fun viewEventHolder(): LiveData<ViewEvent> = viewEventLiveData
     //endregion
+
+    // internal states
+    protected var viewState: ViewState?
+        get() = viewStateLiveData.value
+        set(value) {
+            viewStateLiveData.value = value
+        }
+
+    var commonState: CommonState?
+        get() = commonStateLiveData.value
+        set(value) {
+            commonStateLiveData.value = value
+        }
+
+    protected fun emitViewEvent(viewEvent: ViewEvent) {
+        viewEventLiveData.value = viewEvent
+    }
 
     //common state methods
     protected fun showLoading() {
@@ -27,15 +43,15 @@ abstract class BaseViewModel<ViewState, ViewEvent> : ViewModel() {
     }
 
     protected fun showIdle() {
-        commonState = CommonState.Idle
+        commonState  = CommonState.Idle
     }
 
     protected fun showError(errorMessage: String = "") {
-        commonState = CommonState.Error(errorMessage = errorMessage)
+        commonState  = CommonState.Error(errorMessage = errorMessage)
     }
 
     protected fun showEmpty(emptyMessage: String = "") {
-        commonState = CommonState.Empty(emptyMessage = emptyMessage)
+        commonState  = CommonState.Empty(emptyMessage = emptyMessage)
     }
     //endregion
 

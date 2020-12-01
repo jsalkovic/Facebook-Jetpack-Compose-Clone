@@ -14,9 +14,11 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.WithConstraints
 import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.unit.IntSize
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,9 +60,17 @@ fun GlideImage(
                     }
                 }
 
+                val size = constraints.run {
+                    IntSize(
+                        if (maxWidth in 1 until Int.MAX_VALUE) maxWidth else SIZE_ORIGINAL,
+                        if (maxHeight in 1 until Int.MAX_VALUE) maxHeight else SIZE_ORIGINAL
+                    )
+                }
+
                 glide
                     .asBitmap()
                     .load(model)
+                    .override(size.width, size.height)
                     .let(customize)
                     .into(target!!)
             }

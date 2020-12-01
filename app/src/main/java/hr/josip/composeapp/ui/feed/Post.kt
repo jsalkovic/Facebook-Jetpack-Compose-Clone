@@ -11,44 +11,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import hr.josip.composeapp.data.model.feed.response.Post
-import hr.josip.composeapp.data.model.feed.response.Reactions
+import hr.josip.composeapp.data.model.feed.response.PostModel
 import hr.josip.composeapp.ui.common.CircleImage
 import hr.josip.composeapp.ui.shared.compose.GlideImage
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun PostItem(post: Post, onClick: () -> Unit) {
+fun PostItem(postModel: PostModel, onClick: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            AddUserDetails(post)
-            AddPostContent(post)
+            AddUserDetails(postModel)
+            AddPostContent(postModel)
         }
     }
 }
 
 @Composable
-private fun AddUserDetails(post: Post) {
+private fun AddUserDetails(postModel: PostModel) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CircleImage(url = post.user.avatarUrl)
+        CircleImage(url = postModel.user.avatarUrl)
         Column(
             modifier = Modifier.fillMaxWidth().padding(start = 8.dp),
         ) {
             Text(
-                text = post.user.name,
+                text = postModel.user.name,
                 style = MaterialTheme.typography.subtitle1,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.onSurface
             )
             Text(
-                text = SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH).format(post.date),
+                text = SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH).format(postModel.date),
                 style = MaterialTheme.typography.caption,
                 color = MaterialTheme.colors.onSurface
             )
@@ -57,16 +56,16 @@ private fun AddUserDetails(post: Post) {
 }
 
 @Composable
-private fun AddPostContent(post: Post) {
+private fun AddPostContent(postModel: PostModel) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = post.text,
+            text = postModel.text,
             style = MaterialTheme.typography.body1,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
             color = MaterialTheme.colors.onSurface
         )
         GlideImage(
-            model = post.imageUrl,
+            model = postModel.imageUrl,
             modifier = Modifier.fillMaxWidth().padding(16.dp)
                 .clip(RoundedCornerShape(8.dp))
         )

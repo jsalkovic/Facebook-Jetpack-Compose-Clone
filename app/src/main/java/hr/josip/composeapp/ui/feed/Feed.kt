@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import hr.josip.composeapp.R
-import hr.josip.composeapp.data.model.feed.response.Post
-import hr.josip.composeapp.data.model.feed.response.Story
+import hr.josip.composeapp.data.model.feed.response.PostModel
+import hr.josip.composeapp.data.model.feed.response.StoryModel
+import hr.josip.composeapp.data.model.feed.response.StoryState
 import hr.josip.composeapp.ui.common.Status
 import hr.josip.composeapp.ui.common.Screen
 import hr.josip.composeapp.ui.common.WithViewState
-
 
 @Composable
 fun Feed(feedViewModel: FeedViewModel) {
@@ -26,12 +26,12 @@ fun Feed(feedViewModel: FeedViewModel) {
             WithViewState(
                 viewModel = feedViewModel,
                 viewStateChanged = { viewState ->
-                    viewState.feed?.let { feed ->
-                        ShowStories(feed.stories)
-                        ShowPosts(feed.posts)
+                    viewState.feedModel?.let { feed ->
+                        ShowStories(feed.storyModels, feedViewModel)
+                        ShowPosts(feed.postModels)
                     }
                 },
-                eventStateChanged = { Unit }
+                viewEventOccurred = { Unit }
             )
             feedViewModel.getFeed()
         }
@@ -39,24 +39,30 @@ fun Feed(feedViewModel: FeedViewModel) {
 }
 
 @Composable
-private fun ShowStories(stories: List<Story>) {
-    Surface(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), color = MaterialTheme.colors.surface) {
+private fun ShowStories(storyModels: List<StoryModel>, feedViewModel: FeedViewModel) {
+    Surface(
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+        color = MaterialTheme.colors.surface
+    ) {
         LazyRowFor(
-            items = stories,
+            items = storyModels,
             modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
         ) { story ->
-            StoryItem(story = story) { Unit }
+            StoryItem(storyModel = story) {
+                if (story.storyState == StoryState.UNREAD)
+                    feedViewModel.markStoryAsRead(story)
+            }
         }
     }
 }
 
 @Composable
-private fun ShowPosts(posts: List<Post>) {
+private fun ShowPosts(postModels: List<PostModel>) {
     LazyColumnFor(
-        items = posts,
+        items = postModels,
         modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
     ) { post ->
-        PostItem(post = post) { Unit }
+        PostItem(postModel = post) { Unit }
     }
 }
 

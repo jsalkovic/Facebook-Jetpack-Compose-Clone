@@ -63,25 +63,18 @@ fun SetupBottomNav(navController: NavHostController) {
                     if (screen is HomeScreen.Profile)
                         CircleImageRes(
                             resId = R.drawable.user_avatar,
-                            padding = 16.dp,
-                            onClick = { navigateToProfile(navController, currentRoute, screen) }
+                            padding = 16.dp
                         )
                     else Icon(asset = vectorResource(id = screen.drawableId))
                 },
                 selected = currentRoute == screen.route,
-                onClick = { navigateToProfile(navController, currentRoute, screen) }
+                onClick = {
+                    navController.popBackStack(navController.graph.startDestination, false)
+                    if (currentRoute != screen.route) {
+                        navController.navigate(screen.route)
+                    }
+                }
             )
         }
-    }
-}
-
-private fun navigateToProfile(
-    navController: NavHostController,
-    currentRoute: String?,
-    screen: HomeScreen
-) {
-    navController.popBackStack(navController.graph.startDestination, false)
-    if (currentRoute != screen.route) {
-        navController.navigate(screen.route)
     }
 }

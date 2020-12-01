@@ -1,7 +1,7 @@
 package hr.josip.composeapp.data.source
 
-import hr.josip.composeapp.data.model.feed.response.Feed
+import hr.josip.composeapp.data.model.feed.response.FeedModel
 
 interface FacebookSource {
-    suspend fun getFeed(): Feed
+    suspend fun getFeed(): FeedModel
 }

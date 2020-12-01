@@ -3,7 +3,7 @@ package hr.josip.composeapp.data.model.feed.response
 import hr.josip.composeapp.data.common.User
 import java.util.*
 
-data class Post(
+data class PostModel(
     val id: Int,
     val user: User,
     val date: Date = Date(),
