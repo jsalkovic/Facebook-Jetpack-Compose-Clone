@@ -6,39 +6,33 @@ import androidx.compose.runtime.livedata.observeAsState
 import hr.josip.composeapp.ui.shared.base.*
 
 @Composable
-fun <ViewState, ViewEvent> WithViewState(
+fun <ViewState, ViewEvent> HandleCommonState(
     viewModel: BaseViewModel<ViewState, ViewEvent>,
     commonStateHolder: State<CommonState?> = viewModel.commonStateHolder().observeAsState(),
-    viewStateHolder: State<ViewState?> = viewModel.viewStateHolder().observeAsState(),
-    viewEventStateHolder: State<ViewEvent?> = viewModel.viewEventHolder().observeAsState(),
-    viewStateChanged: (@Composable (ViewState) -> Unit),
-    viewEventOccurred: (@Composable (ViewEvent) -> Unit)
 ) {
     commonStateHolder.value?.let { commonState ->
         Crossfade(current = commonState) {
             when (it) {
-                CommonState.Loading -> Loading()
+                CommonState.Loading -> Loading(true)
                 is CommonState.Empty -> Empty(it.emptyMessage)
                 is CommonState.Error -> Error(it.errorMessage)
-                CommonState.Idle -> {
-                    HandleViewState(viewStateHolder, viewStateChanged)
-                    HandleViewEvent(viewEventStateHolder, viewEventOccurred)
-                }
+                CommonState.Idle -> Loading(false)
             }
         }
-
     }
 }
 
 @Composable
-private fun <ViewState> HandleViewState(
-    viewStateHolder: State<ViewState?>,
+fun <ViewState, ViewEvent> HandleViewState(
+    viewModel: BaseViewModel<ViewState, ViewEvent>,
+    viewStateHolder: State<ViewState?> = viewModel.viewStateHolder().observeAsState(),
     viewStateChanged: (@Composable (ViewState) -> Unit)
 ) = viewStateHolder.value?.let { viewState -> viewStateChanged.invoke(viewState) }
 
 
 @Composable
-private fun <ViewEvent> HandleViewEvent(
-    eventStateHolder: State<ViewEvent?>,
+fun <ViewState, ViewEvent> HandleViewEvent(
+    viewModel: BaseViewModel<ViewState, ViewEvent>,
+    eventStateHolder: State<ViewEvent?> = viewModel.viewEventHolder().observeAsState(),
     eventStateChanged: (@Composable (ViewEvent) -> Unit)
 ) = eventStateHolder.value?.let { viewEvent -> eventStateChanged.invoke(viewEvent) }

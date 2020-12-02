@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRowFor
+import androidx.compose.foundation.lazy.LazyRowForIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -17,21 +18,17 @@ import hr.josip.composeapp.data.model.feed.response.FeedModel
 import hr.josip.composeapp.data.model.feed.response.StoryModel
 import hr.josip.composeapp.data.model.feed.response.StoryState
 import hr.josip.composeapp.shared.manager.user.UserManager
-import hr.josip.composeapp.ui.common.Status
-import hr.josip.composeapp.ui.common.Screen
-import hr.josip.composeapp.ui.common.WithViewState
+import hr.josip.composeapp.ui.common.*
 
 @Composable
 fun Feed(feedViewModel: FeedViewModel, userManager: UserManager) {
     Screen(topBar = { FeedToolbar() }) {
         Column(modifier = Modifier.fillMaxSize()) {
-            WithViewState(
-                viewModel = feedViewModel,
-                viewStateChanged = { viewState ->
-                    viewState.feedModel?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
-                },
-                viewEventOccurred = { Unit }
-            )
+            HandleCommonState(viewModel = feedViewModel)
+            HandleViewState(viewModel = feedViewModel) { viewState ->
+                viewState.feedModel?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
+            }
+            HandleViewEvent(viewModel = feedViewModel) { }
             feedViewModel.init()
         }
     }
