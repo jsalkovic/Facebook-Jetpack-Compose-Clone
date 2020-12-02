@@ -6,11 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import dagger.hilt.android.AndroidEntryPoint
+import hr.josip.composeapp.shared.manager.user.UserManager
 import hr.josip.composeapp.ui.feed.FeedViewModel
 import hr.josip.composeapp.ui.home.Home
 import hr.josip.composeapp.ui.shared.base.BaseActivity
 import hr.josip.composeapp.ui.splash.Splash
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -19,6 +21,9 @@ class MainActivity : BaseActivity() {
     private lateinit var navController: NavHostController
 
     private val feedViewModel by viewModels<FeedViewModel>()
+
+    @Inject
+    lateinit var userManager: UserManager
 
     @Composable
     override fun composeContent() {
@@ -39,7 +44,7 @@ class MainActivity : BaseActivity() {
                 })
                 composable(route = MainScreen.HOME.route, content = {
                     Crossfade(current = MainScreen.HOME.route) {
-                        Home(feedViewModel)
+                        Home(feedViewModel, userManager)
                     }
                 })
             })

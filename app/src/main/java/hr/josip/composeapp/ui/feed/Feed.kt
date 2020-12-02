@@ -1,40 +1,34 @@
 package hr.josip.composeapp.ui.feed
 
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.lazy.LazyRowFor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import hr.josip.composeapp.ComposeApp
 import hr.josip.composeapp.R
 import hr.josip.composeapp.data.model.feed.response.FeedModel
-import hr.josip.composeapp.data.model.feed.response.PostModel
 import hr.josip.composeapp.data.model.feed.response.StoryModel
 import hr.josip.composeapp.data.model.feed.response.StoryState
+import hr.josip.composeapp.shared.manager.user.UserManager
 import hr.josip.composeapp.ui.common.Status
 import hr.josip.composeapp.ui.common.Screen
 import hr.josip.composeapp.ui.common.WithViewState
 
 @Composable
-fun Feed(feedViewModel: FeedViewModel) {
+fun Feed(feedViewModel: FeedViewModel, userManager: UserManager) {
     Screen(topBar = { FeedToolbar() }) {
         Column(modifier = Modifier.fillMaxSize()) {
             WithViewState(
                 viewModel = feedViewModel,
                 viewStateChanged = { viewState ->
-                    viewState.feedModel?.let { feed -> ShowFeed(feed, feedViewModel) }
+                    viewState.feedModel?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
                 },
                 viewEventOccurred = { Unit }
             )
@@ -44,13 +38,13 @@ fun Feed(feedViewModel: FeedViewModel) {
 }
 
 @Composable
-private fun ShowFeed(feedModel: FeedModel, feedViewModel: FeedViewModel) {
+private fun ShowFeed(feedModel: FeedModel, feedViewModel: FeedViewModel, userManager: UserManager) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colors.background)
     ) {
         item {
-            Status { Unit }
-            ShowStories(feedModel.storyModels, feedViewModel)
+            Status { status -> feedViewModel.updateStatus(status) }
+            Stories(feedModel.storyModels, feedViewModel, userManager)
         }
         items(
             items = feedModel.postModels,
@@ -59,7 +53,11 @@ private fun ShowFeed(feedModel: FeedModel, feedViewModel: FeedViewModel) {
 }
 
 @Composable
-private fun ShowStories(storyModels: List<StoryModel>, feedViewModel: FeedViewModel) {
+private fun Stories(
+    storyModels: List<StoryModel>,
+    feedViewModel: FeedViewModel,
+    userManager: UserManager
+) {
     Surface(
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
         color = MaterialTheme.colors.surface
@@ -68,13 +66,18 @@ private fun ShowStories(storyModels: List<StoryModel>, feedViewModel: FeedViewMo
             items = storyModels,
             modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
         ) { story ->
-            StoryItem(storyModel = story) {
-                when (it.storyState) {
-                    StoryState.UNREAD -> feedViewModel.markStoryAsRead(story)
-                    StoryState.READ -> Unit
-                    StoryState.LOADING -> Unit
-                }
-            }
+            StoryItem(
+                storyModel = story,
+                userManager = userManager,
+                onStoryClicked = {
+                    when (it.storyState) {
+                        StoryState.UNREAD -> feedViewModel.markStoryAsRead(story)
+                        StoryState.READ -> Unit
+                        StoryState.LOADING -> Unit
+                    }
+                },
+                onAddStoryClicked = {}
+            )
         }
     }
 }

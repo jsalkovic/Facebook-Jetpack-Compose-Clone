@@ -19,20 +19,27 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import hr.josip.composeapp.R
+import hr.josip.composeapp.data.common.User
 import hr.josip.composeapp.data.model.feed.response.StoryModel
 import hr.josip.composeapp.data.model.feed.response.StoryState
+import hr.josip.composeapp.shared.manager.user.UserManager
 import hr.josip.composeapp.ui.common.CircleImage
 import hr.josip.composeapp.ui.shared.compose.blue
 import hr.josip.composeapp.ui.shared.compose.lightGrey
 
 @Composable
-fun StoryItem(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
-    if (storyModel.id == 0) {
-        NewStory(storyModel, onClick)
+fun StoryItem(
+    storyModel: StoryModel,
+    onStoryClicked: (StoryModel) -> Unit,
+    onAddStoryClicked: () -> Unit,
+    userManager: UserManager
+) {
+    if (storyModel.user == userManager.getCurrentActiveUser()) {
+        NewStory(userManager.getCurrentActiveUser(), onAddStoryClicked)
     } else when (storyModel.storyState) {
-        StoryState.UNREAD -> UnreadStory(storyModel = storyModel, onClick = onClick)
+        StoryState.UNREAD -> UnreadStory(storyModel = storyModel, onClick = onStoryClicked)
         StoryState.LOADING -> LoadingStory(storyModel)
-        StoryState.READ -> ReadStory(storyModel = storyModel, onClick = onClick)
+        StoryState.READ -> ReadStory(storyModel = storyModel, onClick = onStoryClicked)
     }
 }
 
@@ -133,7 +140,7 @@ private fun LoadingStory(storyModel: StoryModel) {
 }
 
 @Composable
-private fun NewStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
+private fun NewStory(user: User, onClick: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
@@ -145,9 +152,9 @@ private fun NewStory(storyModel: StoryModel, onClick: (StoryModel) -> Unit) {
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth()
-                    .clickable(onClick = { onClick.invoke(storyModel) })
+                    .clickable(onClick = { onClick.invoke() })
             ) {
-                CircleImage(model = R.drawable.user_avatar)
+                CircleImage(model = user.avatarUrl)
                 Box(
                     modifier = Modifier.preferredSize(20.dp).clip(CircleShape)
                         .background(blue)

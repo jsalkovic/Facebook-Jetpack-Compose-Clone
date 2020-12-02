@@ -1,5 +1,6 @@
 package hr.josip.composeapp.ui.feed
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -18,20 +19,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun PostItem(postModel: PostModel, onClick: () -> Unit) {
+fun PostItem(postModel: PostModel, onClick: (PostModel) -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+            .clickable(onClick = { onClick.invoke(postModel) })
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            AddUserDetails(postModel)
-            AddPostContent(postModel)
+            UserDetails(postModel)
+            PostContent(postModel)
         }
     }
 }
 
 @Composable
-private fun AddUserDetails(postModel: PostModel) {
+private fun UserDetails(postModel: PostModel) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -56,19 +58,22 @@ private fun AddUserDetails(postModel: PostModel) {
 }
 
 @Composable
-private fun AddPostContent(postModel: PostModel) {
+private fun PostContent(postModel: PostModel) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = postModel.text,
             style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
             color = MaterialTheme.colors.onSurface
         )
-        GlideImage(
-            model = postModel.imageUrl,
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
-                .clip(RoundedCornerShape(8.dp))
-        )
+        postModel.imageUrl?.let { imageUrl ->
+            GlideImage(
+                model = imageUrl,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            )
+        }
+
     }
 }
 

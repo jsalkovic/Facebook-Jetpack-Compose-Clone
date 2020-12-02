@@ -3,8 +3,7 @@ package hr.josip.composeapp.ui.feed
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import hr.josip.composeapp.R
@@ -13,7 +12,7 @@ import hr.josip.composeapp.ui.shared.compose.darkGrey
 
 @Composable
 fun Tabs() {
-    var currentIndex = remember { 0 }
+    var currentIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf(
         stringResource(id = R.string.tab_news),
         stringResource(id = R.string.tab_groups),

@@ -6,17 +6,18 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import hr.josip.composeapp.shared.manager.user.UserManager
 import hr.josip.composeapp.ui.feed.Feed
 import hr.josip.composeapp.ui.feed.FeedViewModel
 
 @Composable
-fun Home(feedViewModel: FeedViewModel) {
+fun Home(feedViewModel: FeedViewModel, userManager: UserManager) {
     val navController = rememberNavController()
     Scaffold(bottomBar = { SetupBottomNav(navController) }) {
         NavHost(navController = navController, startDestination = HomeScreen.Feed.route, builder = {
             composable(route = HomeScreen.Feed.route) {
                 Crossfade(current = HomeScreen.Feed.route) {
-                    Feed(feedViewModel)
+                    Feed(feedViewModel, userManager)
                 }
             }
             composable(route = HomeScreen.Groups.route) {

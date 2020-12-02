@@ -3,20 +3,17 @@ package hr.josip.composeapp.data.common
 import hr.josip.composeapp.data.model.feed.response.PostModel
 import hr.josip.composeapp.data.model.feed.response.StoryModel
 import hr.josip.composeapp.data.model.feed.response.StoryState
+import hr.josip.composeapp.shared.manager.user.UserManager
 
 object Mock {
 
-    fun getStories(): List<StoryModel> {
+    fun getStories(userManager: UserManager): List<StoryModel> {
         val stories = arrayListOf<StoryModel>()
         stories.apply {
             add(
                 StoryModel(
                     id = 0,
-                    user = User(
-                        id = 0,
-                        name = "",
-                        avatarUrl = ""
-                    ), storyState = StoryState.UNREAD
+                    user = userManager.getCurrentActiveUser(), storyState = StoryState.READ
                 )
             )
             add(
