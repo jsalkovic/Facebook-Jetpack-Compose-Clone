@@ -5,7 +5,7 @@ import hr.josip.composeapp.data.common.User
 data class Story(
     val id: Int,
     val user: User,
-    val storiestate: StoryState
+    val storyState: StoryState
 )
 
 enum class StoryState {

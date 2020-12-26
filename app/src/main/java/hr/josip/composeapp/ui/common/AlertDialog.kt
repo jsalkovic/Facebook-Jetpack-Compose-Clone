@@ -5,21 +5,24 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 
 import hr.josip.composeapp.R
+import hr.josip.composeapp.ui.shared.base.BaseViewModel
 
 @Composable
 fun AlertDialog(
-    showDialog: Boolean,
+    showDialog: Boolean = remember { false },
     setShowDialog: (Boolean) -> Unit,
     title: String = stringResource(id = R.string.app_name),
     text: String,
     confirmButtonText: String = stringResource(id = R.string.confirm_button_text),
     onConfirmClicked: (() -> Unit)? = null,
-    dismissButtonText: String = stringResource(id = R.string.dismiss_button_text),
-    onDismissClicked: (() -> Unit)? = null
+    viewModel: BaseViewModel<*,*>
 ) {
     if (showDialog) {
         AlertDialog(
-            onDismissRequest = { setShowDialog(false) },
+            onDismissRequest = {
+                setShowDialog(false)
+                viewModel.clearCommonState()
+            },
             title = {
                 Text(text = title)
             },
@@ -30,16 +33,9 @@ fun AlertDialog(
                 TextButton(onClick = {
                     setShowDialog(false)
                     onConfirmClicked?.invoke()
+                    viewModel.clearCommonState()
                 }) {
-                    Text(text = confirmButtonText)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = {
-                    setShowDialog(false)
-                    onDismissClicked?.invoke()
-                }) {
-                    Text(text = dismissButtonText)
+                    Text(text = confirmButtonText, color = MaterialTheme.colors.onSurface)
                 }
             }
         )

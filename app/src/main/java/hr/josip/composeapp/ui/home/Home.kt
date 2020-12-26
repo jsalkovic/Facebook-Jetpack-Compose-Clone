@@ -13,7 +13,7 @@ import hr.josip.composeapp.ui.feed.FeedViewModel
 @Composable
 fun Home(feedViewModel: FeedViewModel, userManager: UserManager) {
     val navController = rememberNavController()
-    Scaffold(bottomBar = { SetupBottomNav(navController) }) {
+    Scaffold(bottomBar = { SetupBottomNav(navController, userManager.getCurrentActiveUser()) }) {
         NavHost(navController = navController, startDestination = HomeScreen.Feed.route, builder = {
             composable(route = HomeScreen.Feed.route) {
                 Crossfade(current = HomeScreen.Feed.route) {

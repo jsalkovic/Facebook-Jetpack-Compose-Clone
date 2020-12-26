@@ -11,7 +11,8 @@ data class Post(
     val date: Date = Date(abs(System.currentTimeMillis().minus(Random.nextLong()))),
     val text: String,
     val imageUrl: String? = null,
-    val reactions: Reactions = Reactions(),
-    val comments: Int = 0,
-    val shares: Int = 0
+    val likes: Int = Random.nextInt(100),
+    val comments: List<Comment> = arrayListOf(),
+    val shares: Int = Random.nextInt(100),
+    val isLikedByCurrentUser: Boolean = false
 )

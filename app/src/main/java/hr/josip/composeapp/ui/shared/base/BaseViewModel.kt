@@ -1,12 +1,13 @@
-@file:Suppress("LeakingThis")
-
 package hr.josip.composeapp.ui.shared.base
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 
-abstract class BaseViewModel<ViewState, ViewEvent> : ViewModel() {
+abstract class BaseViewModel<ViewState, ViewEvent>(application: Application) : AndroidViewModel(
+    application
+) {
 
     // private live dates
     private val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData()
@@ -27,7 +28,7 @@ abstract class BaseViewModel<ViewState, ViewEvent> : ViewModel() {
             viewStateLiveData.value = value
         }
 
-    var commonState: CommonState?
+    private var commonState: CommonState?
         get() = commonStateLiveData.value
         set(value) {
             commonStateLiveData.value = value
@@ -43,15 +44,19 @@ abstract class BaseViewModel<ViewState, ViewEvent> : ViewModel() {
     }
 
     protected fun showIdle() {
-        commonState  = CommonState.Idle
+        commonState = CommonState.Idle
     }
 
     protected fun showError(errorMessage: String = "") {
-        commonState  = CommonState.Error(errorMessage = errorMessage)
+        commonState = CommonState.Error(errorMessage = errorMessage)
     }
 
     protected fun showEmpty(emptyMessage: String = "") {
-        commonState  = CommonState.Empty(emptyMessage = emptyMessage)
+        commonState = CommonState.Empty(emptyMessage = emptyMessage)
+    }
+
+    fun clearCommonState(){
+        commonState = null
     }
     //endregion
 

@@ -15,7 +15,7 @@ fun <ViewState, ViewEvent> HandleCommonState(
             when (it) {
                 CommonState.Loading -> Loading(true)
                 is CommonState.Empty -> Empty(it.emptyMessage)
-                is CommonState.Error -> Error(it.errorMessage)
+                is CommonState.Error -> Error(viewModel, it.errorMessage)
                 CommonState.Idle -> Loading(false)
             }
         }

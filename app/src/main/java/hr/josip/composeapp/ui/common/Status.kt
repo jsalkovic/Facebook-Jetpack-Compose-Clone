@@ -27,7 +27,7 @@ fun Status(onSendClick: (String) -> Unit) {
                 elevation = 0.dp
             ) {
                 CircleImage(
-                    model = R.drawable.user_avatar,
+                    model = "https://scontent.fzag1-1.fna.fbcdn.net/v/t1.0-9/33527158_1008398122653200_5486756463634284544_o.jpg?_nc_cat=111&ccb=2&_nc_sid=09cbfe&_nc_ohc=7k8pQnnw8R4AX91cLBX&_nc_ht=scontent.fzag1-1.fna&oh=30dfbb76dc9abbd5b4a7d204d17875cc&oe=600C2803",
                     modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(0.dp)
                 )
             }

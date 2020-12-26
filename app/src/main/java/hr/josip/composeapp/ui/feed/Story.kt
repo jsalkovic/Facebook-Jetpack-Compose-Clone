@@ -36,7 +36,7 @@ fun StoryItem(
 ) {
     if (story.user == userManager.getCurrentActiveUser()) {
         NewStory(userManager.getCurrentActiveUser(), onAddStoryClicked)
-    } else when (story.storiestate) {
+    } else when (story.storyState) {
         StoryState.UNREAD -> UnreadStory(story = story, onClick = onStoryClicked)
         StoryState.LOADING -> LoadingStory(story)
         StoryState.READ -> ReadStory(story = story, onClick = onStoryClicked)

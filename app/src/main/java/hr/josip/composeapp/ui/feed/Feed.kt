@@ -44,7 +44,15 @@ private fun ShowFeed(feed: Feed, feedViewModel: FeedViewModel, userManager: User
         }
         items(
             items = feed.posts,
-        ) { post -> PostItem(post = post) { Unit } }
+        ) { post ->
+            PostItem(
+                post = post,
+                onClick = { feedViewModel.showPostDetails(it) },
+                onLikeClicked = { feedViewModel.onLikeClicked(it) },
+                onAddComment = {},
+                onShareClicked = { feedViewModel.sharePost(it) }
+            )
+        }
     }
 }
 
@@ -58,8 +66,6 @@ private fun Stories(
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
         color = MaterialTheme.colors.surface
     ) {
-        val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
-        var text by remember { mutableStateOf("") }
         LazyRow(
             content = {
                 items(stories) { story ->
@@ -67,22 +73,20 @@ private fun Stories(
                         story = story,
                         userManager = userManager,
                         onStoryClicked = {
-                            when (it.storiestate) {
+                            when (it.storyState) {
                                 StoryState.UNREAD -> feedViewModel.markStoryAsRead(story)
-                                StoryState.READ -> Unit
+                                StoryState.READ -> feedViewModel.showStoryContent(story)
                                 StoryState.LOADING -> Unit
                             }
                         },
                         onAddStoryClicked = {
-                            text = "Uploadanje storyja nije moguće u ovom trenutku"
-                            setShowDialog(true)
+                           feedViewModel.addNewUserStory()
                         }
                     )
                 }
             },
             modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
         )
-        AlertDialog(showDialog = showDialog, setShowDialog = setShowDialog, text = text)
     }
 }
 

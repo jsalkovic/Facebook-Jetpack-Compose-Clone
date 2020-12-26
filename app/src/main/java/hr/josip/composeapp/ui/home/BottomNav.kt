@@ -1,7 +1,6 @@
 package hr.josip.composeapp.ui.home
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -18,6 +17,7 @@ import androidx.navigation.compose.KEY_ROUTE
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigate
 import hr.josip.composeapp.R
+import hr.josip.composeapp.data.common.User
 import hr.josip.composeapp.ui.common.CircleImage
 import hr.josip.composeapp.ui.shared.compose.blue
 import hr.josip.composeapp.ui.shared.compose.darkGrey
@@ -41,7 +41,10 @@ sealed class HomeScreen(val route: String, @DrawableRes val drawableId: Int) {
 
 
 @Composable
-fun SetupBottomNav(navController: NavHostController) {
+fun SetupBottomNav(
+    navController: NavHostController,
+    user: User
+) {
     val items = listOf(
         HomeScreen.Feed,
         HomeScreen.Groups,
@@ -59,7 +62,7 @@ fun SetupBottomNav(navController: NavHostController) {
                 icon = {
                     if (screen is HomeScreen.Profile)
                         CircleImage(
-                            model = R.drawable.user_avatar,
+                            model = user.avatarUrl,
                             modifier = Modifier.preferredSize(width = 24.dp, height = 24.dp)
                         )
                     else Icon(vectorResource(id = screen.drawableId))
