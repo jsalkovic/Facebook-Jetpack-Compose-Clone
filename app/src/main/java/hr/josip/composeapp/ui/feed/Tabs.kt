@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package hr.josip.composeapp.ui.feed
 
 import androidx.compose.foundation.layout.Column

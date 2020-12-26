@@ -8,6 +8,8 @@ import hr.josip.composeapp.R
 
 @Composable
 fun AlertDialog(
+    showDialog: Boolean,
+    setShowDialog: (Boolean) -> Unit,
     title: String = stringResource(id = R.string.app_name),
     text: String,
     confirmButtonText: String = stringResource(id = R.string.confirm_button_text),
@@ -15,10 +17,9 @@ fun AlertDialog(
     dismissButtonText: String = stringResource(id = R.string.dismiss_button_text),
     onDismissClicked: (() -> Unit)? = null
 ) {
-    var isDialogShowing by remember { mutableStateOf(true) }
-    if (isDialogShowing) {
+    if (showDialog) {
         AlertDialog(
-            onDismissRequest = { isDialogShowing = false },
+            onDismissRequest = { setShowDialog(false) },
             title = {
                 Text(text = title)
             },
@@ -27,7 +28,7 @@ fun AlertDialog(
             },
             confirmButton = {
                 TextButton(onClick = {
-                    isDialogShowing = false
+                    setShowDialog(false)
                     onConfirmClicked?.invoke()
                 }) {
                     Text(text = confirmButtonText)
@@ -35,7 +36,7 @@ fun AlertDialog(
             },
             dismissButton = {
                 TextButton(onClick = {
-                    isDialogShowing = false
+                    setShowDialog(false)
                     onDismissClicked?.invoke()
                 }) {
                     Text(text = dismissButtonText)

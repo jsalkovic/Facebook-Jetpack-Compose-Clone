@@ -26,12 +26,12 @@ class MainActivity : BaseActivity() {
     lateinit var userManager: UserManager
 
     @Composable
-    override fun composeContent() {
-        setupNavigationComponent()
+    override fun ComposeContent() {
+        SetupNavigationComponent()
     }
 
     @Composable
-    private fun setupNavigationComponent() {
+    private fun SetupNavigationComponent() {
         navController = rememberNavController()
         NavHost(
             navController = navController,

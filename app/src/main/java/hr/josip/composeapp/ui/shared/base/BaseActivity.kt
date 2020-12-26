@@ -9,13 +9,13 @@ import hr.josip.composeapp.ui.shared.compose.ComposeAppTheme
 abstract class BaseActivity : AppCompatActivity() {
 
     @Composable
-    abstract fun composeContent()
+    abstract fun ComposeContent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeAppTheme {
-                composeContent()
+                ComposeContent()
             }
         }
     }

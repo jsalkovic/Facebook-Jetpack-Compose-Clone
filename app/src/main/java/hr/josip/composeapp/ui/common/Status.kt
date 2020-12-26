@@ -26,7 +26,10 @@ fun Status(onSendClick: (String) -> Unit) {
                 shape = CircleShape,
                 elevation = 0.dp
             ) {
-                CircleImage(model = R.drawable.user_avatar)
+                CircleImage(
+                    model = R.drawable.user_avatar,
+                    modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(0.dp)
+                )
             }
             Card(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
@@ -67,7 +70,7 @@ private fun StatusInput(onSendClick: (String) -> Unit) {
         isErrorValue = error,
         trailingIcon = {
             IconButton(
-                icon = {
+                content = {
                     Icon(
                         vectorResource(id = R.drawable.ic_send),
                         tint = if (sendButtonEnabled) blue else MaterialTheme.colors.onSurface

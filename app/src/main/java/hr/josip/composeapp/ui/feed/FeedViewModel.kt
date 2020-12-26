@@ -2,8 +2,8 @@ package hr.josip.composeapp.ui.feed
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import hr.josip.composeapp.data.model.feed.response.PostModel
-import hr.josip.composeapp.data.model.feed.response.StoryModel
+import hr.josip.composeapp.data.model.feed.response.Post
+import hr.josip.composeapp.data.model.feed.response.Story
 import hr.josip.composeapp.data.model.feed.response.StoryState
 import hr.josip.composeapp.domain.UseCases
 import hr.josip.composeapp.shared.manager.user.UserManager
@@ -28,47 +28,46 @@ class FeedViewModel @ViewModelInject constructor(
         showLoading()
         delay(1000)
         viewState =
-            FeedState(feedModel = withContext(Dispatchers.IO) { getFeedUseCase.execute(Unit) })
+            FeedState(feed = withContext(Dispatchers.IO) { getFeedUseCase.execute(Unit) })
         showIdle()
     }
 
-    @Synchronized
-    fun markStoryAsRead(storyModel: StoryModel) = viewModelScope.launch {
-        viewState?.feedModel?.apply {
+    fun markStoryAsRead(story: Story) = viewModelScope.launch {
+        viewState?.feed?.apply {
             viewState = viewState?.copy(
-                feedModel = updateStoryState(storyModel, StoryState.LOADING)?.let {
-                    viewState?.feedModel?.copy(
-                        postModels = postModels,
-                        storyModels = it
+                feed = updatestoriestate(story, StoryState.LOADING)?.let {
+                    viewState?.feed?.copy(
+                        posts = posts,
+                        stories = it
                     )
                 }
             )
             delay(1000)
             viewState = viewState?.copy(
-                feedModel = updateStoryState(storyModel, StoryState.READ)?.let {
-                    viewState?.feedModel?.copy(
-                        postModels = postModels,
-                        storyModels = it
+                feed = updatestoriestate(story, StoryState.READ)?.let {
+                    viewState?.feed?.copy(
+                        posts = posts,
+                        stories = it
                     )
                 }
             )
         }
     }
 
-    private suspend fun updateStoryState(storyModel: StoryModel, newState: StoryState) =
+    private suspend fun updatestoriestate(story: Story, newState: StoryState) =
         withContext(Dispatchers.IO) {
-            viewState?.feedModel?.storyModels?.map {
-                if (it.id == storyModel.id) {
-                    it.copy(id = storyModel.id, user = storyModel.user, storyState = newState)
+            viewState?.feed?.stories?.map {
+                if (it.id == story.id) {
+                    it.copy(id = story.id, user = story.user, storiestate = newState)
                 } else it
             }
         }
 
     fun updateStatus(status: String) = viewModelScope.launch {
-        viewState?.feedModel?.apply {
-            val updatedPosts = postModels.toMutableList().apply {
+        viewState?.feed?.apply {
+            val updatedPosts = posts.toMutableList().apply {
                 add(
-                    0, PostModel(
+                    0, Post(
                         id = 10,
                         user = userManager.getCurrentActiveUser(),
                         text = status,
@@ -77,9 +76,9 @@ class FeedViewModel @ViewModelInject constructor(
                 )
             }
             viewState = viewState?.copy(
-                feedModel = viewState?.feedModel?.copy(
-                    postModels = updatedPosts,
-                    storyModels = storyModels
+                feed = viewState?.feed?.copy(
+                    posts = updatedPosts,
+                    stories = stories
                 )
             )
         }

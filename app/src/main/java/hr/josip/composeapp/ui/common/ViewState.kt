@@ -27,7 +27,9 @@ fun <ViewState, ViewEvent> HandleViewState(
     viewModel: BaseViewModel<ViewState, ViewEvent>,
     viewStateHolder: State<ViewState?> = viewModel.viewStateHolder().observeAsState(),
     viewStateChanged: (@Composable (ViewState) -> Unit)
-) = viewStateHolder.value?.let { viewState -> viewStateChanged.invoke(viewState) }
+) {
+    viewStateHolder.value?.let { viewState -> viewStateChanged.invoke(viewState) }
+}
 
 
 @Composable
@@ -35,4 +37,6 @@ fun <ViewState, ViewEvent> HandleViewEvent(
     viewModel: BaseViewModel<ViewState, ViewEvent>,
     eventStateHolder: State<ViewEvent?> = viewModel.viewEventHolder().observeAsState(),
     eventStateChanged: (@Composable (ViewEvent) -> Unit)
-) = eventStateHolder.value?.let { viewEvent -> eventStateChanged.invoke(viewEvent) }
+) {
+    eventStateHolder.value?.let { viewEvent -> eventStateChanged.invoke(viewEvent) }
+}

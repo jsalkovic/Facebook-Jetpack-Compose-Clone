@@ -1,8 +1,8 @@
 package hr.josip.composeapp.ui.home
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -11,8 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -62,9 +60,9 @@ fun SetupBottomNav(navController: NavHostController) {
                     if (screen is HomeScreen.Profile)
                         CircleImage(
                             model = R.drawable.user_avatar,
-                            padding = 16.dp
+                            modifier = Modifier.preferredSize(width = 24.dp, height = 24.dp)
                         )
-                    else Icon(asset = vectorResource(id = screen.drawableId))
+                    else Icon(vectorResource(id = screen.drawableId))
                 },
                 selected = currentRoute == screen.route,
                 onClick = {

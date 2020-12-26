@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.math.abs
 import kotlin.random.Random
 
-data class PostModel(
+data class Post(
     val id: Int,
     val user: User,
     val date: Date = Date(abs(System.currentTimeMillis().minus(Random.nextLong()))),

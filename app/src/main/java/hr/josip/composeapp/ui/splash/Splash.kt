@@ -29,8 +29,8 @@ fun Splash(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CircleImage(
-                padding = 0.dp,
-                model = R.drawable.ic_facebook
+                model = R.drawable.ic_facebook,
+                modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(0.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             CircularProgressIndicator(
