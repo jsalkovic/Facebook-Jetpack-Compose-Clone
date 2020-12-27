@@ -1,10 +1,10 @@
 # Facebook Jetpack Compose Clone
 Jetpack Compose clone of Facebook UI.
 
-![Facebook Compose](/facebook_compose.png?raw=true)
+![Facebook Compose](https://josipsalkovic.com/facebook_compose.png)
 
 ## About
-Facebook Jetpack Compose Clone is an Facebook clone app built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose). Before cloning this repo, you should first download the latest canary version of [Android Studio Preview](https://developer.android.com/studio/preview) in order to get things work. Version of Jetpack Compose that are used in this project is `1.0.0-alpha09`
+Facebook Jetpack Compose Clone is an Facebook clone app built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose). Version of Jetpack Compose that was used in this project is `1.0.0-alpha09`.
 
 This sample showcases:
 * Splash and Home screen
@@ -20,6 +20,10 @@ Tools that are used in this project are as follows:
 * [`Hilt`](https://developer.android.com/training/dependency-injection/hilt-android) for Depenency Injection.
 * [`Retrofit`](https://square.github.io/retrofit/) for network requests.
 * [`Glide`](https://bumptech.github.io/glide/) for image loading and cacheing.
+
+## Setup 
+* Download the latest canary version of [Android Studio Preview](https://developer.android.com/studio/preview).
+* Clone repo and run app.
 
 ## Architecture
 In this project, custom MVVM architecture based on ViewStates was used: [link](https://infinum.com/the-capsized-eight/MVVM-architecture).
