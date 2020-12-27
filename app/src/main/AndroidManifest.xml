@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hr.josip.composeapp">
+    package="hr.josip.facebook">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -8,12 +8,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".ComposeApp"
+        android:name="hr.josip.facebook.FacebookComposeApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ComposeApp">
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="hr.josip.facebook.ui.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.ComposeApp.NoActionBar"
             android:windowSoftInputMode="stateVisible">

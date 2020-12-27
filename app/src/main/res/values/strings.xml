@@ -1,6 +1,6 @@
 <resources>
     <!-- General app strings -->
-    <string name="app_name">ComposeApp</string>
+    <string name="app_name">Facebook Compose App</string>
     <string name="error_message">General error occurred!</string>
     <string name="empty_message">No data!</string>
 
