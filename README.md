@@ -4,7 +4,7 @@ Jetpack Compose clone of Facebook UI.
 ![Facebook Compose](/facebook_compose.png?raw=true)
 
 ## About
-Facebook Jetpack Compose Clone is an Facebook clone app built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose). Before cloning this repo, you should first download the latest canary version of [Android Studio Preview](https://developer.android.com/studio/preview) in order to get things work. 
+Facebook Jetpack Compose Clone is an Facebook clone app built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose). Before cloning this repo, you should first download the latest canary version of [Android Studio Preview](https://developer.android.com/studio/preview) in order to get things work. Version of Jetpack Compose that are used in this project is `1.0.0-alpha09`
 
 This sample showcases:
 * Splash and Home screen
@@ -15,11 +15,11 @@ This sample showcases:
 * Comment posts
 
 Tools that are used in this project are as follows:
-* [Jetpack Navigation Compose](https://developer.android.com/jetpack/compose/navigation) for navigation between composables.
-* [Coroutines](https://developer.android.com/kotlin/coroutines) for async programming.
-* [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for Depenency Injection.
-* [Retrofit](https://square.github.io/retrofit/) for network requests.
-* [Glide](https://bumptech.github.io/glide/) for image loading and cacheing.
+* [`Jetpack Navigation Compose`](https://developer.android.com/jetpack/compose/navigation) for navigation between composables.
+* [`Coroutines`](https://developer.android.com/kotlin/coroutines) for async programming.
+* [`Hilt`](https://developer.android.com/training/dependency-injection/hilt-android) for Depenency Injection.
+* [`Retrofit`](https://square.github.io/retrofit/) for network requests.
+* [`Glide`](https://bumptech.github.io/glide/) for image loading and cacheing.
 
 ## Architecture
 In this project, custom MVVM architecture based on ViewStates was used: [link](https://infinum.com/the-capsized-eight/MVVM-architecture).
@@ -29,9 +29,9 @@ Design that was used in this project: [link](https://www.behance.net/gallery/103
 
 ## Customization
 * All data was mocked and it's located [here](https://github.com/jsalkovic/Facebook-Compose-App/blob/master/app/src/main/java/hr/josip/facebook/data/common/Mock.kt).
-* To customize stories, just modify [getStories()](https://github.com/jsalkovic/Facebook-Compose-App/blob/master/app/src/main/java/hr/josip/facebook/data/common/Mock.kt) method.
-* To customize posts, just modify [getPosts()](https://github.com/jsalkovic/Facebook-Compose-App/blob/master/app/src/main/java/hr/josip/facebook/data/common/Mock.kt) method.
-* To change current active user, which is needed for status update and comments, go inside [UserManager](https://github.com/jsalkovic/Facebook-Compose-App/blob/master/app/src/main/java/hr/josip/facebook/shared/manager/user/UserManagerImpl.kt) and provide your own data.
+* To customize stories, just modify [`getStories()`](https://github.com/jsalkovic/Facebook-Compose-App/blob/master/app/src/main/java/hr/josip/facebook/data/common/Mock.kt) method.
+* To customize posts, just modify [`getPosts()`](https://github.com/jsalkovic/Facebook-Compose-App/blob/master/app/src/main/java/hr/josip/facebook/data/common/Mock.kt) method.
+* To change current active user, which is needed for status update and comments, go inside [`UserManager`](https://github.com/jsalkovic/Facebook-Compose-App/blob/master/app/src/main/java/hr/josip/facebook/shared/manager/user/UserManagerImpl.kt) and provide your own data.
 
 ## Status: 🚧 In progress 🚧
 
