@@ -10,6 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import hr.josip.composeapp.R
@@ -22,24 +23,28 @@ import hr.josip.composeapp.ui.common.*
 @Composable
 fun Feed(feedViewModel: FeedViewModel, userManager: UserManager) {
     Screen(topBar = { FeedToolbar() }) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            HandleCommonState(viewModel = feedViewModel)
-            HandleViewState(viewModel = feedViewModel) { viewState ->
-                viewState.feed?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
-            }
-            HandleViewEvent(viewModel = feedViewModel) { }
-            feedViewModel.init()
+        HandleCommonState(viewModel = feedViewModel)
+        HandleViewState(viewModel = feedViewModel) { viewState ->
+            viewState.feed?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
         }
+        HandleViewEvent(viewModel = feedViewModel) { }
+        feedViewModel.init()
     }
 }
 
 @Composable
 private fun ShowFeed(feed: Feed, feedViewModel: FeedViewModel, userManager: UserManager) {
     LazyColumn(
-        modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colors.background)
+        modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colors.background)
+            .padding(bottom = 56.dp)
     ) {
         item {
-            Status { status -> feedViewModel.updateStatus(status) }
+            Input(
+                userManager.getCurrentActiveUser(),
+                stringResource(id = R.string.status_hint)
+            ) { status ->
+                feedViewModel.updateStatus(status)
+            }
             Stories(feed.stories, feedViewModel, userManager)
         }
         items(
@@ -47,9 +52,10 @@ private fun ShowFeed(feed: Feed, feedViewModel: FeedViewModel, userManager: User
         ) { post ->
             PostItem(
                 post = post,
+                userManager = userManager,
                 onClick = { feedViewModel.showPostDetails(it) },
                 onLikeClicked = { feedViewModel.onLikeClicked(it) },
-                onAddComment = {},
+                onAddComment = { commentedPost, comment -> feedViewModel.addComment(commentedPost, comment) },
                 onShareClicked = { feedViewModel.sharePost(it) }
             )
         }
@@ -80,7 +86,7 @@ private fun Stories(
                             }
                         },
                         onAddStoryClicked = {
-                           feedViewModel.addNewUserStory()
+                            feedViewModel.addNewUserStory()
                         }
                     )
                 }

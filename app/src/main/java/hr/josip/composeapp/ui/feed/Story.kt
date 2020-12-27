@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import hr.josip.composeapp.R
 import hr.josip.composeapp.data.common.User
@@ -59,7 +60,7 @@ private fun ReadStory(story: Story, onClick: (Story) -> Unit) {
                     .background(MaterialTheme.colors.surface)
                     .border(
                         width = 3.dp,
-                        color = lightGrey,
+                        color = MaterialTheme.colors.secondary,
                         shape = CircleShape
                     )
                     .clickable(onClick = { onClick.invoke(story) })
@@ -70,6 +71,9 @@ private fun ReadStory(story: Story, onClick: (Story) -> Unit) {
                 )
             }
             Text(
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 text = story.user.name,
                 style = MaterialTheme.typography.caption,
                 color = MaterialTheme.colors.onSurface,
@@ -102,6 +106,8 @@ private fun UnreadStory(story: Story, onClick: (Story) -> Unit) {
                 )
             }
             Text(
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
                 text = story.user.name,
                 style = MaterialTheme.typography.caption,
@@ -138,6 +144,8 @@ private fun LoadingStory(story: Story) {
                 )
             }
             Text(
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
                 text = story.user.name,
                 style = MaterialTheme.typography.caption,
@@ -165,7 +173,7 @@ private fun NewStory(user: User, onAddStoryClicked: () -> Unit) {
                 CircleImage(
                     model = user.avatarUrl,
                     modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(4.dp)
-                        .clickable(onClick = { onAddStoryClicked.invoke() })
+                        .clip(CircleShape).clickable(onClick = { onAddStoryClicked.invoke() })
                 )
                 Box(
                     modifier = Modifier.preferredSize(20.dp).clip(CircleShape)
@@ -184,6 +192,8 @@ private fun NewStory(user: User, onAddStoryClicked: () -> Unit) {
                 }
             }
             Text(
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
                 text = stringResource(id = R.string.new_story),
                 style = MaterialTheme.typography.caption,

@@ -17,9 +17,10 @@
     <string name="tab_watch">WATCH</string>
     <string name="share_post_unavailable">Sharing post is not available at the moment!</string>
     <string name="post_detail_unavailable">Showing post detail is not available at the moment!</string>
+    <string name="comment_hint">Write a comment…</string>
 
     <!-- Stories -->
-    <string name="new_story">Add</string>
+    <string name="new_story">New story</string>
     <string name="add_new_story_unavailable">Adding new story is not available at the moment!</string>
     <string name="preview_story_unavailable">Previewing story is not available at the moment!</string>
 

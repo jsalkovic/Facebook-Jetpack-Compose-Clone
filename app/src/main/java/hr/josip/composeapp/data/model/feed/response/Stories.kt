@@ -4,6 +4,7 @@ import hr.josip.composeapp.data.common.User
 
 data class Story(
     val id: Int,
+    val imageUrl: String? = null,
     val user: User,
     val storyState: StoryState
 )

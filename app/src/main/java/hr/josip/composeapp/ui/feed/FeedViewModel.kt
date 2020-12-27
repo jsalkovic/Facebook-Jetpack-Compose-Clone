@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import hr.josip.composeapp.R
+import hr.josip.composeapp.data.model.feed.response.Comment
 import hr.josip.composeapp.data.model.feed.response.Post
 import hr.josip.composeapp.data.model.feed.response.Story
 import hr.josip.composeapp.data.model.feed.response.StoryState
@@ -15,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import kotlin.random.Random
 
 class FeedViewModel @ViewModelInject constructor(
     private val composeApp: Application,
@@ -73,8 +75,9 @@ class FeedViewModel @ViewModelInject constructor(
         viewState?.feed?.apply {
             val updatedPosts = posts.toMutableList().apply {
                 add(
-                    0, Post(
-                        id = 10,
+                    0,
+                    Post(
+                        id = Random.nextInt(100),
                         user = userManager.getCurrentActiveUser(),
                         text = status,
                         date = Date()
@@ -114,6 +117,33 @@ class FeedViewModel @ViewModelInject constructor(
         }
     }
 
+    fun addComment(post: Post, comment: String) = viewModelScope.launch {
+        viewState?.feed?.apply {
+            val updatedPosts = viewState?.feed?.posts?.map {
+                val updatedComments = it.comments.toMutableList()
+                if (it.id == post.id) {
+                    updatedComments.add(
+                        Comment(
+                            id = Random.nextInt(100),
+                            text = comment,
+                            date = Date(),
+                            user = userManager.getCurrentActiveUser()
+                        )
+                    )
+                }
+                it.copy(comments = updatedComments)
+            }
+            updatedPosts?.let {
+                viewState = viewState?.copy(
+                    feed = viewState?.feed?.copy(
+                        posts = it,
+                        stories = stories
+                    )
+                )
+            }
+        }
+    }
+
     fun addNewUserStory() =
         showError(composeApp.getString(R.string.add_new_story_unavailable))
 
@@ -125,6 +155,5 @@ class FeedViewModel @ViewModelInject constructor(
 
     fun showStoryContent(@Suppress("UNUSED_PARAMETER") story: Story) =
         showError(composeApp.getString(R.string.preview_story_unavailable))
-
 }
 

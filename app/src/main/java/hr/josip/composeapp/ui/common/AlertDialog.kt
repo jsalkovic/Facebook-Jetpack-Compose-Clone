@@ -3,7 +3,6 @@ package hr.josip.composeapp.ui.common
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
-
 import hr.josip.composeapp.R
 import hr.josip.composeapp.ui.shared.base.BaseViewModel
 
@@ -24,10 +23,16 @@ fun AlertDialog(
                 viewModel.clearCommonState()
             },
             title = {
-                Text(text = title)
+                Text(
+                    text = title,
+                    color = MaterialTheme.colors.onSurface
+                )
             },
             text = {
-                Text(text = text)
+                Text(
+                    text = text,
+                    color = MaterialTheme.colors.onSurface
+                )
             },
             confirmButton = {
                 TextButton(onClick = {
@@ -35,7 +40,10 @@ fun AlertDialog(
                     onConfirmClicked?.invoke()
                     viewModel.clearCommonState()
                 }) {
-                    Text(text = confirmButtonText, color = MaterialTheme.colors.onSurface)
+                    Text(
+                        text = confirmButtonText,
+                        color = MaterialTheme.colors.onSurface
+                    )
                 }
             }
         )

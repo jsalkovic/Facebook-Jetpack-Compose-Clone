@@ -1,8 +1,13 @@
 package hr.josip.composeapp.ui.home
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,34 +27,58 @@ fun Home(feedViewModel: FeedViewModel, userManager: UserManager) {
             }
             composable(route = HomeScreen.Groups.route) {
                 Crossfade(current = HomeScreen.Groups.route) {
-                    Text(
-                        text = HomeScreen.Groups.route,
-                        color = MaterialTheme.colors.onBackground
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = HomeScreen.Groups.route,
+                            color = MaterialTheme.colors.onBackground,
+                        )
+                    }
                 }
             }
             composable(route = HomeScreen.Chat.route) {
                 Crossfade(current = HomeScreen.Chat.route) {
-                    Text(
-                        text = HomeScreen.Chat.route,
-                        color = MaterialTheme.colors.onBackground
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = HomeScreen.Chat.route,
+                            color = MaterialTheme.colors.onBackground,
+                        )
+                    }
                 }
             }
             composable(route = HomeScreen.Notifications.route) {
                 Crossfade(current = HomeScreen.Notifications.route) {
-                    Text(
-                        text = HomeScreen.Notifications.route,
-                        color = MaterialTheme.colors.onBackground
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = HomeScreen.Notifications.route,
+                            color = MaterialTheme.colors.onBackground,
+                        )
+                    }
                 }
             }
             composable(route = HomeScreen.Profile.route) {
                 Crossfade(current = HomeScreen.Profile.route) {
-                    Text(
-                        text = HomeScreen.Profile.route,
-                        color = MaterialTheme.colors.onBackground
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = HomeScreen.Profile.route,
+                            color = MaterialTheme.colors.onBackground,
+                        )
+                    }
                 }
             }
         })

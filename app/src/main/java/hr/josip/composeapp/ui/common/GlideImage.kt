@@ -1,4 +1,4 @@
-package hr.josip.composeapp.ui.shared.compose
+package hr.josip.composeapp.ui.common
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
