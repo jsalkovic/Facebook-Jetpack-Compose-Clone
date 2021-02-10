@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -65,7 +67,10 @@ fun SetupBottomNav(
                             model = user.avatarUrl,
                             modifier = Modifier.preferredSize(width = 24.dp, height = 24.dp)
                         )
-                    else Icon(vectorResource(id = screen.drawableId))
+                    else Icon(
+                        vectorResource(id = screen.drawableId),
+                        contentDescription = stringResource(id = R.string.app_name)
+                    )
                 },
                 selected = currentRoute == screen.route,
                 onClick = {

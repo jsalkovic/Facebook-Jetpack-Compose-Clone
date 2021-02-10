@@ -186,6 +186,7 @@ private fun NewStory(user: User, onAddStoryClicked: () -> Unit) {
                 ) {
                     Image(
                         vectorResource(id = R.drawable.ic_add),
+                        contentDescription = stringResource(id = R.string.app_name),
                         modifier = Modifier.fillMaxSize().padding(2.dp)
                     )
                 }

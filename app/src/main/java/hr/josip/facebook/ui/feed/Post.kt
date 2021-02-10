@@ -138,6 +138,7 @@ private fun Likes(post: Post, onLikeClicked: (Post) -> Unit) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(
                 vectorResource(id = R.drawable.ic_thumb_up),
+                contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
                 colorFilter = if (post.isLikedByCurrentUser) ColorFilter.tint(blue) else ColorFilter.tint(
                     MaterialTheme.colors.onSurface
@@ -164,6 +165,7 @@ private fun Comments(post: Post) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(
                 vectorResource(id = R.drawable.ic_comment),
+                contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
             )
@@ -188,6 +190,7 @@ private fun Share(post: Post, onShareClicked: (Post) -> Unit) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(
                 vectorResource(id = R.drawable.ic_share),
+                contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
             )

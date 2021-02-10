@@ -20,7 +20,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var navController: NavHostController
 
-    private val feedViewModel by viewModels<FeedViewModel>()
+    private val feedViewModel: FeedViewModel by viewModels()
 
     @Inject
     lateinit var userManager: UserManager

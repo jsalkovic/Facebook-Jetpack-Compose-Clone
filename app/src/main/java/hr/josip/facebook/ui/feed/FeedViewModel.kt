@@ -1,8 +1,8 @@
 package hr.josip.facebook.ui.feed
 
 import android.app.Application
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import hr.josip.facebook.R
 import hr.josip.facebook.data.model.feed.response.Comment
 import hr.josip.facebook.data.model.feed.response.Post
@@ -16,14 +16,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 import kotlin.random.Random
 
-class FeedViewModel @ViewModelInject constructor(
+@HiltViewModel
+class FeedViewModel @Inject constructor(
     private val composeApp: Application,
     private val userManager: UserManager,
     private val getFeedUseCase: UseCases.GetFeedUseCase
-) :
-    BaseViewModel<FeedState, FeedEvent>(composeApp) {
+) : BaseViewModel<FeedState, FeedEvent>(composeApp) {
 
     fun init() {
         if (viewState == null) getFeed()

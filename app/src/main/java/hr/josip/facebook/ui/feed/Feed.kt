@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
@@ -47,7 +48,7 @@ private fun ShowFeed(feed: Feed, feedViewModel: FeedViewModel, userManager: User
             }
             Stories(feed.stories, feedViewModel, userManager)
         }
-        items(
+        items (
             items = feed.posts,
         ) { post ->
             PostItem(
@@ -106,6 +107,7 @@ private fun FeedToolbar() {
         ) {
             Image(
                 vectorResource(id = R.drawable.ic_facebook_logo),
+                contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.fillMaxWidth().height(56.dp).padding(16.dp)
             )
         }
