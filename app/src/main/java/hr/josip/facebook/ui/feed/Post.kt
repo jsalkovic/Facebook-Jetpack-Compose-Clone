@@ -4,12 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,15 +15,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.semantics.SemanticsProperties.TestTag
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import hr.josip.facebook.R
 import hr.josip.facebook.data.model.feed.response.Comment
 import hr.josip.facebook.data.model.feed.response.Post
 import hr.josip.facebook.shared.manager.user.UserManager
-import hr.josip.facebook.ui.common.GlideImage
-import hr.josip.facebook.ui.common.Input
-import hr.josip.facebook.ui.common.UserPicture
+import hr.josip.facebook.ui.common.*
 import hr.josip.facebook.ui.shared.compose.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,12 +126,13 @@ private fun ReactionsContent(
 }
 
 @Composable
-private fun Likes(post: Post, onLikeClicked: (Post) -> Unit) {
-    Box(
+fun Likes(post: Post, onLikeClicked: (Post) -> Unit) {
+    Button(
         modifier = Modifier
             .clip(CircleShape)
             .background(MaterialTheme.colors.surface)
-            .clickable(onClick = { onLikeClicked.invoke(post) })
+            .semantics { Tags.PostItemLikesIncrease },
+        onClick = { onLikeClicked.invoke(post) }
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(
@@ -152,7 +151,6 @@ private fun Likes(post: Post, onLikeClicked: (Post) -> Unit) {
             )
         }
     }
-
 }
 
 @Composable

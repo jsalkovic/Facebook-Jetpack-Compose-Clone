@@ -10,14 +10,12 @@ import androidx.compose.ui.Modifier
 import hr.josip.facebook.ui.shared.compose.blue
 
 @Composable
-fun Loading(showLoading: Boolean) {
-    if (showLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator(color = blue)
-        }
+fun Loading() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(color = blue)
     }
 }

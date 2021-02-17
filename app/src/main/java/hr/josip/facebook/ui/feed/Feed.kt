@@ -22,16 +22,15 @@ import hr.josip.facebook.shared.manager.user.UserManager
 import hr.josip.facebook.ui.common.*
 
 @Composable
-fun Feed(feedViewModel: FeedViewModel, userManager: UserManager) {
+fun Feed(feedViewModel: FeedViewModel, userManager: UserManager) =
     Screen(topBar = { FeedToolbar() }) {
         HandleCommonState(viewModel = feedViewModel)
-        HandleViewState(viewModel = feedViewModel) { viewState ->
+        WithViewState(viewModel = feedViewModel) { viewState ->
             viewState.feed?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
         }
-        HandleViewEvent(viewModel = feedViewModel) { }
+        WithViewEvent(viewModel = feedViewModel) { }
         feedViewModel.init()
     }
-}
 
 @Composable
 private fun ShowFeed(feed: Feed, feedViewModel: FeedViewModel, userManager: UserManager) {

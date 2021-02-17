@@ -35,7 +35,7 @@ class FeedViewModel @Inject constructor(
         delay(1000)
         viewState =
             FeedState(feed = withContext(Dispatchers.IO) { getFeedUseCase.execute(Unit) })
-        showIdle()
+        clearCommonState()
     }
 
     fun markStoryAsRead(story: Story) = viewModelScope.launch {

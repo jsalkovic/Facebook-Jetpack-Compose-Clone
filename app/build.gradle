@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+
     compileSdkVersion 30
 
     defaultConfig {
@@ -37,6 +38,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion kotlin_version
+    }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
     }
 }
 
@@ -87,4 +92,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
+    // Testing
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
 }

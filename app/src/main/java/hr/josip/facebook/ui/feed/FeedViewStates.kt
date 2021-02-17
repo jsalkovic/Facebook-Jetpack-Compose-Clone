@@ -6,5 +6,6 @@ import hr.josip.facebook.data.model.feed.response.Story
 data class FeedState (val feed: Feed? = null)
 
 sealed class FeedEvent {
+    @Suppress("UNUSED_PARAMETER")
     class StoryLoaded(story: Story) : FeedEvent()
 }

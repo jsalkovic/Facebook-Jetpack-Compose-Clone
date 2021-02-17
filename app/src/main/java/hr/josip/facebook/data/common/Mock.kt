@@ -182,7 +182,7 @@ object Mock {
         )
     }
 
-    private fun getUsers(): List<User> = arrayListOf<User>().apply {
+    fun getUsers(): List<User> = arrayListOf<User>().apply {
         add(
             User(
                 id = 1,

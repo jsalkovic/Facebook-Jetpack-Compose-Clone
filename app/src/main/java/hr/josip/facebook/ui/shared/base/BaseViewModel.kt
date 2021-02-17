@@ -43,10 +43,6 @@ abstract class BaseViewModel<ViewState, ViewEvent>(application: Application) : A
         commonState = CommonState.Loading
     }
 
-    protected fun showIdle() {
-        commonState = CommonState.Idle
-    }
-
     protected fun showError(errorMessage: String = "") {
         commonState = CommonState.Error(errorMessage = errorMessage)
     }

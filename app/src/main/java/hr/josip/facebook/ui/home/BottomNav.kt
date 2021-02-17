@@ -74,9 +74,11 @@ fun SetupBottomNav(
                 },
                 selected = currentRoute == screen.route,
                 onClick = {
-                    navController.popBackStack(navController.graph.startDestination, false)
                     if (currentRoute != screen.route) {
-                        navController.navigate(screen.route)
+                        navController.navigate(screen.route) {
+                            popUpTo = navController.graph.startDestination
+                            launchSingleTop = true
+                        }
                     }
                 }
             )
