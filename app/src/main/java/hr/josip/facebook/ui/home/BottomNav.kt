@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.KEY_ROUTE
@@ -22,7 +22,6 @@ import hr.josip.facebook.data.common.User
 import hr.josip.facebook.ui.common.CircleImage
 import hr.josip.facebook.ui.shared.compose.blue
 import hr.josip.facebook.ui.shared.compose.darkGrey
-import timber.log.Timber
 
 private enum class ScreenRoute(val route: String) {
     FEED("Feed"),
@@ -65,7 +64,7 @@ fun SetupBottomNav(
                             modifier = Modifier.preferredSize(width = 24.dp, height = 24.dp)
                         )
                     else Icon(
-                        vectorResource(id = screen.drawableId),
+                        painterResource(id = screen.drawableId),
                         contentDescription = stringResource(id = R.string.app_name),
                     )
                 },

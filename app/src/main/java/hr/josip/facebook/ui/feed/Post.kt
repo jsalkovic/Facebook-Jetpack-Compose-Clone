@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -135,7 +135,7 @@ fun Likes(post: Post, onLikeClicked: (Post) -> Unit) {
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(
-                vectorResource(id = R.drawable.ic_thumb_up),
+                painterResource(id = R.drawable.ic_thumb_up),
                 contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
                 colorFilter = if (post.isLikedByCurrentUser) ColorFilter.tint(blue) else ColorFilter.tint(
@@ -161,7 +161,7 @@ private fun Comments(post: Post) {
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(
-                vectorResource(id = R.drawable.ic_comment),
+                painterResource(id = R.drawable.ic_comment),
                 contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
@@ -186,7 +186,7 @@ private fun Share(post: Post, onShareClicked: (Post) -> Unit) {
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(
-                vectorResource(id = R.drawable.ic_share),
+                painterResource(id = R.drawable.ic_share),
                 contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)

@@ -21,12 +21,12 @@ fun Home(feedViewModel: FeedViewModel, userManager: UserManager) {
     Scaffold(bottomBar = { SetupBottomNav(navController, userManager.getCurrentActiveUser()) }) {
         NavHost(navController = navController, startDestination = HomeScreen.Feed.route, builder = {
             composable(route = HomeScreen.Feed.route) {
-                Crossfade(current = HomeScreen.Feed.route) {
+                Crossfade(HomeScreen.Feed.route) {
                     Feed(feedViewModel, userManager)
                 }
             }
             composable(route = HomeScreen.Groups.route) {
-                Crossfade(current = HomeScreen.Groups.route) {
+                Crossfade(HomeScreen.Groups.route) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -40,7 +40,7 @@ fun Home(feedViewModel: FeedViewModel, userManager: UserManager) {
                 }
             }
             composable(route = HomeScreen.Chat.route) {
-                Crossfade(current = HomeScreen.Chat.route) {
+                Crossfade(HomeScreen.Chat.route) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -54,7 +54,7 @@ fun Home(feedViewModel: FeedViewModel, userManager: UserManager) {
                 }
             }
             composable(route = HomeScreen.Notifications.route) {
-                Crossfade(current = HomeScreen.Notifications.route) {
+                Crossfade(HomeScreen.Notifications.route) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -68,7 +68,7 @@ fun Home(feedViewModel: FeedViewModel, userManager: UserManager) {
                 }
             }
             composable(route = HomeScreen.Profile.route) {
-                Crossfade(current = HomeScreen.Profile.route) {
+                Crossfade(HomeScreen.Profile.route) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,

@@ -13,6 +13,7 @@ import hr.josip.facebook.ui.common.WithViewState
 import hr.josip.facebook.ui.shared.compose.ComposeAppTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@Suppress("unused")
 abstract class BaseFragment<ViewState: Any, ViewEvent: Any, ViewEffect: Any> : Fragment() {
 
     protected abstract fun provideBaseViewModel(): BaseViewModel<ViewState, ViewEvent, ViewEffect>?

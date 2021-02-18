@@ -7,7 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import hr.josip.facebook.R
@@ -60,7 +60,7 @@ private fun InputField(hintLabel: String, onSendClick: (String) -> Unit) {
                 modifier = Modifier.preferredSize(24.dp),
                 content = {
                     Icon(
-                        vectorResource(id = R.drawable.ic_send),
+                        painterResource(id = R.drawable.ic_send),
                         contentDescription = stringResource(id = R.string.app_name),
                         tint = if (sendButtonEnabled) blue else MaterialTheme.colors.onSurface
                     )

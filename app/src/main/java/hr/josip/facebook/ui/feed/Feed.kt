@@ -12,9 +12,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import hr.josip.facebook.R
 import hr.josip.facebook.data.model.feed.response.Feed
@@ -52,23 +52,23 @@ private fun HandleViewState(feedState: FeedState, feedViewModel: FeedViewModel, 
 private fun HandleViewEffect(feedEffect: FeedEffect) {
     when (feedEffect) {
         FeedEffect.AddNewStoryUnavailable -> toast = Toast.makeText(
-            AmbientContext.current,
-            AmbientContext.current.getString(R.string.add_new_story_unavailable),
+            LocalContext.current,
+            LocalContext.current.getString(R.string.add_new_story_unavailable),
             Toast.LENGTH_LONG
         ).apply { show() }
         is FeedEffect.SharePostUnavailable -> toast = Toast.makeText(
-            AmbientContext.current,
-            AmbientContext.current.getString(R.string.share_post_unavailable),
+            LocalContext.current,
+            LocalContext.current.getString(R.string.share_post_unavailable),
             Toast.LENGTH_LONG
         ).apply { show() }
         is FeedEffect.ShowPostDetailsUnavailable -> toast = Toast.makeText(
-            AmbientContext.current,
-            AmbientContext.current.getString(R.string.post_detail_unavailable),
+            LocalContext.current,
+            LocalContext.current.getString(R.string.post_detail_unavailable),
             Toast.LENGTH_LONG
         ).apply { show() }
         is FeedEffect.ShowStoryContentUnavailable -> toast = Toast.makeText(
-            AmbientContext.current,
-            AmbientContext.current.getString(R.string.preview_story_unavailable),
+            LocalContext.current,
+            LocalContext.current.getString(R.string.preview_story_unavailable),
             Toast.LENGTH_LONG
         ).apply { show() }
     }
@@ -173,7 +173,7 @@ private fun FeedToolbar() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                vectorResource(id = R.drawable.ic_facebook_logo),
+                painterResource(id = R.drawable.ic_facebook_logo),
                 contentDescription = stringResource(id = R.string.app_name),
                 modifier = Modifier.fillMaxWidth().height(56.dp).padding(16.dp)
             )

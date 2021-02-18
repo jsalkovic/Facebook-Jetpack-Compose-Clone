@@ -38,12 +38,12 @@ class MainActivity : BaseActivity() {
             startDestination = MainScreen.SPLASH.route,
             builder = {
                 composable(route = MainScreen.SPLASH.route, content = {
-                    Crossfade(current = MainScreen.SPLASH.route) {
+                    Crossfade(MainScreen.SPLASH.route) {
                         Splash(navController)
                     }
                 })
                 composable(route = MainScreen.HOME.route, content = {
-                    Crossfade(current = MainScreen.HOME.route) {
+                    Crossfade(MainScreen.HOME.route) {
                         Home(feedViewModel, userManager)
                     }
                 })

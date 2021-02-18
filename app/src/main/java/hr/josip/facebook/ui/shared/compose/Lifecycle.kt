@@ -29,7 +29,7 @@ fun OnCommit(commitCallback: () -> Unit) =
         commitCallback.invoke()
     }
 
-private class ActiveDisposable(activeCallback: (() -> Unit)?) : DisposableEffectDisposable {
+private class ActiveDisposable(activeCallback: (() -> Unit)?) : DisposableEffectResult {
 
     init {
         activeCallback?.invoke()

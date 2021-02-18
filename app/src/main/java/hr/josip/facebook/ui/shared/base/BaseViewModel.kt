@@ -38,7 +38,6 @@ abstract class BaseViewModel<ViewState, ViewEvent, ViewEffect> : ViewModel() {
     //endregion
 
     // view state
-
     private val _viewState = MutableLiveData<ViewState?>()
 
     @Composable

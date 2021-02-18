@@ -3,7 +3,6 @@ package hr.josip.facebook.ui.common
 import android.annotation.SuppressLint
 import androidx.compose.runtime.*
 import hr.josip.facebook.ui.shared.base.*
-import timber.log.Timber
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -19,7 +18,6 @@ fun <ViewState, ViewEvent, ViewEffect> HandleCommonState(
     emptyView: (@Composable (String) -> Unit) = { emptyMessage -> Empty(emptyMessage) },
 ) = viewModel.commonState().also { commonStateHolder ->
     commonStateHolder.value.let { commonState ->
-        Timber.i("HandleCommonState($commonState) called!")
         when (commonState) {
             CommonState.Loading -> loadingView.invoke()
             is CommonState.Empty -> emptyView.invoke(commonState.emptyMessage)

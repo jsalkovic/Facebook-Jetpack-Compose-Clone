@@ -14,15 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.WithConstraints
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntSize
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.bumptech.glide.request.transition.Transition
 import hr.josip.facebook.R
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +40,7 @@ fun GlideImage(
 ) {
     var image by remember { mutableStateOf<ImageBitmap?>(null) }
     var drawable by remember { mutableStateOf<Drawable?>(null) }
-    val context = AmbientContext.current
+    val context = LocalContext.current
 
     val glide = Glide.with(context)
     var target: CustomTarget<Bitmap>?
@@ -93,7 +90,7 @@ private fun ActiveImage(
     colorFilter: ColorFilter? = null,
 ) {
     when {
-        image != null -> Crossfade(current = Unit) {
+        image != null -> Crossfade(Unit) {
             Image(
                 bitmap = image,
                 contentDescription = stringResource(id = R.string.app_name),
@@ -104,7 +101,7 @@ private fun ActiveImage(
                 colorFilter = colorFilter
             )
         }
-        drawable != null -> Crossfade(current = Unit) {
+        drawable != null -> Crossfade(Unit) {
             Canvas(
                 modifier = Modifier
                     .fillMaxSize()
@@ -113,7 +110,7 @@ private fun ActiveImage(
                 drawIntoCanvas { drawable.draw(it.nativeCanvas) }
             }
         }
-        else -> Crossfade(current = Unit) {
+        else -> Crossfade(Unit) {
             Box(modifier = modifier.background(Color.Transparent))
         }
     }
