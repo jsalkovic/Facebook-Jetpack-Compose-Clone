@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.semantics.SemanticsProperties.TestTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -127,12 +126,12 @@ private fun ReactionsContent(
 
 @Composable
 fun Likes(post: Post, onLikeClicked: (Post) -> Unit) {
-    Button(
+    Box(
         modifier = Modifier
             .clip(CircleShape)
             .background(MaterialTheme.colors.surface)
-            .semantics { Tags.PostItemLikesIncrease },
-        onClick = { onLikeClicked.invoke(post) }
+            .semantics { Tags.PostItemLikesIncrease }
+            .clickable { onLikeClicked.invoke(post) }
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Image(

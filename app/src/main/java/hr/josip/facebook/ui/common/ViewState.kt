@@ -1,43 +1,48 @@
 package hr.josip.facebook.ui.common
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import hr.josip.facebook.ui.shared.base.*
+import timber.log.Timber
 
+@SuppressLint("ComposableNaming")
 @Composable
-fun <ViewState, ViewEvent> HandleCommonState(
-    viewModel: BaseViewModel<ViewState, ViewEvent>,
+fun <ViewState, ViewEvent, ViewEffect> HandleCommonState(
+    viewModel: BaseViewModel<ViewState, ViewEvent, ViewEffect>,
     loadingView: (@Composable () -> Unit) = { Loading() },
-    errorView: (@Composable (BaseViewModel<*, *>, String) -> Unit) = { baseViewModel, errorMessage ->
+    errorView: (@Composable (BaseViewModel<*,*,*>, String) -> Unit) = { baseViewModel, errorMessage ->
         Error(
             baseViewModel,
             errorMessage
         )
     },
     emptyView: (@Composable (String) -> Unit) = { emptyMessage -> Empty(emptyMessage) },
-) = viewModel.commonStateHolder().observeAsState().also { commonStateHolder ->
-    commonStateHolder.value?.let { commonState ->
+) = viewModel.commonState().also { commonStateHolder ->
+    commonStateHolder.value.let { commonState ->
+        Timber.i("HandleCommonState($commonState) called!")
         when (commonState) {
             CommonState.Loading -> loadingView.invoke()
             is CommonState.Empty -> emptyView.invoke(commonState.emptyMessage)
             is CommonState.Error -> errorView.invoke(viewModel, commonState.errorMessage)
+            CommonState.Idle -> Unit
         }
     }
 }
 
+@SuppressLint("ComposableNaming")
 @Composable
-fun <ViewState, ViewEvent> WithViewState(
-    viewModel: BaseViewModel<ViewState, ViewEvent>,
+fun <ViewState, ViewEvent, ViewEffect> WithViewState(
+    viewModel: BaseViewModel<ViewState, ViewEvent, ViewEffect>,
     viewStateChanged: (@Composable (ViewState) -> Unit)
-) = viewModel.viewStateHolder().observeAsState().also { viewStateHolder ->
+) = viewModel.viewState().also { viewStateHolder ->
     viewStateHolder.value?.let { viewState -> viewStateChanged.invoke(viewState) }
 }
 
-
+@SuppressLint("ComposableNaming")
 @Composable
-fun <ViewState, ViewEvent> WithViewEvent(
-    viewModel: BaseViewModel<ViewState, ViewEvent>,
-    eventStateChanged: (@Composable (ViewEvent) -> Unit)
-) = viewModel.viewEventHolder().observeAsState().also { viewEventHolder ->
-    viewEventHolder.value?.let { viewEvent -> eventStateChanged.invoke(viewEvent) }
+fun <ViewState, ViewEvent, ViewEffect> WithViewEffect(
+    viewModel: BaseViewModel<ViewState, ViewEvent, ViewEffect>,
+    effectStateChanged: (@Composable (ViewEffect) -> Unit)
+) = viewModel.viewEffect().also { viewEffectHolder ->
+    viewEffectHolder.value?.let { viewEffect -> effectStateChanged.invoke(viewEffect) }
 }

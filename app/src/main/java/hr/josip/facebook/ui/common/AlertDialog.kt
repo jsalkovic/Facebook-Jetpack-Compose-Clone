@@ -14,7 +14,7 @@ fun AlertDialog(
     text: String,
     confirmButtonText: String = stringResource(id = R.string.confirm_button_text),
     onConfirmClicked: (() -> Unit)? = null,
-    viewModel: BaseViewModel<*,*>
+    viewModel: BaseViewModel<*,*,*>
 ) {
     if (showDialog) {
         AlertDialog(

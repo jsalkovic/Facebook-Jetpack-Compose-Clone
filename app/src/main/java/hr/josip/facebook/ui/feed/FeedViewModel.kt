@@ -1,9 +1,8 @@
 package hr.josip.facebook.ui.feed
 
-import android.app.Application
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import hr.josip.facebook.R
 import hr.josip.facebook.data.model.feed.response.Comment
 import hr.josip.facebook.data.model.feed.response.Post
 import hr.josip.facebook.data.model.feed.response.Story
@@ -21,24 +20,35 @@ import kotlin.random.Random
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val composeApp: Application,
     private val userManager: UserManager,
     private val getFeedUseCase: UseCases.GetFeedUseCase
-) : BaseViewModel<FeedState, FeedEvent>(composeApp) {
+) : BaseViewModel<FeedState, FeedEvent, FeedEffect>() {
 
-    fun init() {
-        if (viewState == null) getFeed()
+    override fun handleIntent(event: FeedEvent) {
+        when (event) {
+            FeedEvent.GetFeed -> getFeed()
+            is FeedEvent.AddComment -> addComment(event.post, event.comment)
+            FeedEvent.AddNewUserStory -> addNewUserStory()
+            is FeedEvent.LikeClicked -> onLikeClicked(event.post)
+            is FeedEvent.MarkStoryAsRead -> markStoryAsRead(event.story)
+            is FeedEvent.SharPost -> sharePost(event.post)
+            is FeedEvent.ShowPostDetails -> showPostDetails(event.post)
+            is FeedEvent.ShowStoryContent -> showStoryContent(event.story)
+            is FeedEvent.UpdateStatus -> updateStatus(event.status)
+        }
     }
 
     private fun getFeed() = viewModelScope.launch {
-        showLoading()
-        delay(1000)
-        viewState =
-            FeedState(feed = withContext(Dispatchers.IO) { getFeedUseCase.execute(Unit) })
-        clearCommonState()
+        if (viewState?.feed == null) {
+            showLoading()
+            delay(1000)
+            viewState =
+                FeedState(feed = withContext(Dispatchers.IO) { getFeedUseCase.execute(Unit) })
+            clearCommonState()
+        }
     }
 
-    fun markStoryAsRead(story: Story) = viewModelScope.launch {
+    private fun markStoryAsRead(story: Story) = viewModelScope.launch {
         viewState?.feed?.apply {
             viewState = viewState?.copy(
                 feed = updateStoryState(story, StoryState.LOADING)?.let {
@@ -72,7 +82,7 @@ class FeedViewModel @Inject constructor(
             }
         }
 
-    fun updateStatus(status: String) = viewModelScope.launch {
+    private fun updateStatus(status: String) = viewModelScope.launch {
         viewState?.feed?.apply {
             val updatedPosts = posts.toMutableList().apply {
                 add(
@@ -94,7 +104,7 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    fun onLikeClicked(post: Post) = viewModelScope.launch {
+    private fun onLikeClicked(post: Post) = viewModelScope.launch {
         viewState?.feed?.apply {
             val updatedPosts = viewState?.feed?.posts?.map {
                 if (it.id == post.id) {
@@ -118,7 +128,7 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    fun addComment(post: Post, comment: String) = viewModelScope.launch {
+    private fun addComment(post: Post, comment: String) = viewModelScope.launch {
         viewState?.feed?.apply {
             val updatedPosts = viewState?.feed?.posts?.map {
                 val updatedComments = it.comments.toMutableList()
@@ -145,16 +155,14 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    fun addNewUserStory() =
-        showError(composeApp.getString(R.string.add_new_story_unavailable))
+    private fun addNewUserStory() = emitEffect(FeedEffect.AddNewStoryUnavailable)
 
-    fun sharePost(@Suppress("UNUSED_PARAMETER") post: Post) =
-        showError(composeApp.getString(R.string.share_post_unavailable))
+    private fun sharePost(post: Post) = emitEffect(FeedEffect.SharePostUnavailable(post))
 
-    fun showPostDetails(@Suppress("UNUSED_PARAMETER") post: Post) =
-        showError(composeApp.getString(R.string.post_detail_unavailable))
+    private fun showPostDetails(post: Post) =
+        emitEffect(FeedEffect.ShowPostDetailsUnavailable(post))
 
-    fun showStoryContent(@Suppress("UNUSED_PARAMETER") story: Story) =
-        showError(composeApp.getString(R.string.preview_story_unavailable))
+    private fun showStoryContent(story: Story) =
+        emitEffect(FeedEffect.ShowStoryContentUnavailable(story))
 }
 

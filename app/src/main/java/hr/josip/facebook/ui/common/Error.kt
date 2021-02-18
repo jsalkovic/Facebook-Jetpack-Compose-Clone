@@ -7,7 +7,7 @@ import hr.josip.facebook.ui.shared.base.BaseViewModel
 
 @Composable
 fun Error(
-    viewModel: BaseViewModel<*, *>,
+    viewModel: BaseViewModel<*,*,*>,
     errorMessage: String = stringResource(id = R.string.error_message)
 ) {
     val (showDialog, setShowDialog) = remember { mutableStateOf(true) }

@@ -2,6 +2,13 @@ package hr.josip.facebook
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 @HiltAndroidApp
-class FacebookComposeApp : Application()
+class FacebookComposeApp : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        Timber.plant(Timber.DebugTree())
+    }
+}

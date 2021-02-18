@@ -1,5 +1,6 @@
 package hr.josip.facebook.ui.feed
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -20,17 +22,68 @@ import hr.josip.facebook.data.model.feed.response.Story
 import hr.josip.facebook.data.model.feed.response.StoryState
 import hr.josip.facebook.shared.manager.user.UserManager
 import hr.josip.facebook.ui.common.*
+import hr.josip.facebook.ui.shared.compose.OnActive
+import hr.josip.facebook.ui.shared.compose.OnDispose
+
+private var toast: Toast? = null
 
 @Composable
-fun Feed(feedViewModel: FeedViewModel, userManager: UserManager) =
+fun Feed(feedViewModel: FeedViewModel, userManager: UserManager) {
+    HandleLifecycle(feedViewModel)
     Screen(topBar = { FeedToolbar() }) {
         HandleCommonState(viewModel = feedViewModel)
-        WithViewState(viewModel = feedViewModel) { viewState ->
-            viewState.feed?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
+        WithViewState(viewModel = feedViewModel) { feedState ->
+            HandleViewState(
+                feedState,
+                feedViewModel,
+                userManager
+            )
         }
-        WithViewEvent(viewModel = feedViewModel) { }
-        feedViewModel.init()
+        WithViewEffect(viewModel = feedViewModel) { feedEffect -> HandleViewEffect(feedEffect) }
     }
+}
+
+@Composable
+private fun HandleViewState(feedState: FeedState, feedViewModel: FeedViewModel, userManager: UserManager) {
+    feedState.feed?.let { feed -> ShowFeed(feed, feedViewModel, userManager) }
+}
+
+@Composable
+private fun HandleViewEffect(feedEffect: FeedEffect) {
+    when (feedEffect) {
+        FeedEffect.AddNewStoryUnavailable -> toast = Toast.makeText(
+            AmbientContext.current,
+            AmbientContext.current.getString(R.string.add_new_story_unavailable),
+            Toast.LENGTH_LONG
+        ).apply { show() }
+        is FeedEffect.SharePostUnavailable -> toast = Toast.makeText(
+            AmbientContext.current,
+            AmbientContext.current.getString(R.string.share_post_unavailable),
+            Toast.LENGTH_LONG
+        ).apply { show() }
+        is FeedEffect.ShowPostDetailsUnavailable -> toast = Toast.makeText(
+            AmbientContext.current,
+            AmbientContext.current.getString(R.string.post_detail_unavailable),
+            Toast.LENGTH_LONG
+        ).apply { show() }
+        is FeedEffect.ShowStoryContentUnavailable -> toast = Toast.makeText(
+            AmbientContext.current,
+            AmbientContext.current.getString(R.string.preview_story_unavailable),
+            Toast.LENGTH_LONG
+        ).apply { show() }
+    }
+}
+
+@Composable
+private fun HandleLifecycle(feedViewModel: FeedViewModel) {
+    OnActive {
+        feedViewModel.intent(FeedEvent.GetFeed)
+    }
+    OnDispose(feedViewModel) {
+        toast?.cancel()
+    }
+}
+
 
 @Composable
 private fun ShowFeed(feed: Feed, feedViewModel: FeedViewModel, userManager: UserManager) {
@@ -43,20 +96,27 @@ private fun ShowFeed(feed: Feed, feedViewModel: FeedViewModel, userManager: User
                 userManager.getCurrentActiveUser(),
                 stringResource(id = R.string.status_hint)
             ) { status ->
-                feedViewModel.updateStatus(status)
+                feedViewModel.intent(FeedEvent.UpdateStatus(status))
             }
             Stories(feed.stories, feedViewModel, userManager)
         }
-        items (
+        items(
             items = feed.posts,
         ) { post ->
             PostItem(
                 post = post,
                 userManager = userManager,
-                onClick = { feedViewModel.showPostDetails(it) },
-                onLikeClicked = { feedViewModel.onLikeClicked(it) },
-                onAddComment = { commentedPost, comment -> feedViewModel.addComment(commentedPost, comment) },
-                onShareClicked = { feedViewModel.sharePost(it) }
+                onClick = { feedViewModel.intent(FeedEvent.ShowPostDetails(it)) },
+                onLikeClicked = { feedViewModel.intent(FeedEvent.LikeClicked(it)) },
+                onAddComment = { commentedPost, comment ->
+                    feedViewModel.intent(
+                        FeedEvent.AddComment(
+                            commentedPost,
+                            comment
+                        )
+                    )
+                },
+                onShareClicked = { feedViewModel.intent(FeedEvent.SharPost(it)) }
             )
         }
     }
@@ -80,13 +140,21 @@ private fun Stories(
                         userManager = userManager,
                         onStoryClicked = {
                             when (it.storyState) {
-                                StoryState.UNREAD -> feedViewModel.markStoryAsRead(story)
-                                StoryState.READ -> feedViewModel.showStoryContent(story)
+                                StoryState.UNREAD -> feedViewModel.intent(
+                                    FeedEvent.MarkStoryAsRead(
+                                        story
+                                    )
+                                )
+                                StoryState.READ -> feedViewModel.intent(
+                                    FeedEvent.ShowStoryContent(
+                                        story
+                                    )
+                                )
                                 StoryState.LOADING -> Unit
                             }
                         },
                         onAddStoryClicked = {
-                            feedViewModel.addNewUserStory()
+                            feedViewModel.intent(FeedEvent.AddNewUserStory)
                         }
                     )
                 }

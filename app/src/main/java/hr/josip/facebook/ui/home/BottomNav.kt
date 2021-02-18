@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -23,6 +22,7 @@ import hr.josip.facebook.data.common.User
 import hr.josip.facebook.ui.common.CircleImage
 import hr.josip.facebook.ui.shared.compose.blue
 import hr.josip.facebook.ui.shared.compose.darkGrey
+import timber.log.Timber
 
 private enum class ScreenRoute(val route: String) {
     FEED("Feed"),
@@ -41,7 +41,6 @@ sealed class HomeScreen(val route: String, @DrawableRes val drawableId: Int) {
     object Profile : HomeScreen(ScreenRoute.PROFILE.route, R.drawable.ic_person)
 }
 
-
 @Composable
 fun SetupBottomNav(
     navController: NavHostController,
@@ -59,8 +58,6 @@ fun SetupBottomNav(
         val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
         items.forEach { screen ->
             BottomNavigationItem(
-                selectedContentColor = if (screen == HomeScreen.Profile) Color.Transparent else blue,
-                unselectedContentColor = if (screen == HomeScreen.Profile) Color.Transparent else darkGrey,
                 icon = {
                     if (screen is HomeScreen.Profile)
                         CircleImage(
@@ -69,10 +66,12 @@ fun SetupBottomNav(
                         )
                     else Icon(
                         vectorResource(id = screen.drawableId),
-                        contentDescription = stringResource(id = R.string.app_name)
+                        contentDescription = stringResource(id = R.string.app_name),
                     )
                 },
                 selected = currentRoute == screen.route,
+                selectedContentColor = if (screen == HomeScreen.Profile) Color.Transparent else blue,
+                unselectedContentColor = if (screen == HomeScreen.Profile) Color.Transparent else darkGrey,
                 onClick = {
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route) {
