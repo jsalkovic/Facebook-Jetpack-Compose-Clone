@@ -47,7 +47,7 @@ fun StoryItem(
 private fun ReadStory(story: Story, onClick: (Story) -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
+        modifier = Modifier.width(64.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -66,7 +66,7 @@ private fun ReadStory(story: Story, onClick: (Story) -> Unit) {
             ) {
                 CircleImage(
                     model = story.user.avatarUrl,
-                    modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(4.dp)
+                    modifier = Modifier.size(width = 56.dp, height = 56.dp).padding(4.dp)
                 )
             }
             Text(
@@ -86,7 +86,7 @@ private fun ReadStory(story: Story, onClick: (Story) -> Unit) {
 private fun UnreadStory(story: Story, onClick: (Story) -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
+        modifier = Modifier.width(64.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -101,7 +101,7 @@ private fun UnreadStory(story: Story, onClick: (Story) -> Unit) {
             ) {
                 CircleImage(
                     model = story.user.avatarUrl,
-                    modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(4.dp)
+                    modifier = Modifier.size(width = 56.dp, height = 56.dp).padding(4.dp)
                 )
             }
             Text(
@@ -121,7 +121,7 @@ private fun UnreadStory(story: Story, onClick: (Story) -> Unit) {
 private fun LoadingStory(story: Story) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
+        modifier = Modifier.width(64.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -133,13 +133,13 @@ private fun LoadingStory(story: Story) {
                     .background(MaterialTheme.colors.surface)
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.preferredSize(56.dp),
+                    modifier = Modifier.size(56.dp),
                     strokeWidth = 3.dp,
                     color = blue
                 )
                 CircleImage(
                     model = story.user.avatarUrl,
-                    modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(4.dp)
+                    modifier = Modifier.size(width = 56.dp, height = 56.dp).padding(4.dp)
                 )
             }
             Text(
@@ -159,7 +159,7 @@ private fun LoadingStory(story: Story) {
 private fun NewStory(user: User, onAddStoryClicked: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.preferredWidth(64.dp).padding(4.dp)
+        modifier = Modifier.width(64.dp).padding(4.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -171,11 +171,11 @@ private fun NewStory(user: User, onAddStoryClicked: () -> Unit) {
             ) {
                 CircleImage(
                     model = user.avatarUrl,
-                    modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(4.dp)
+                    modifier = Modifier.size(width = 56.dp, height = 56.dp).padding(4.dp)
                         .clip(CircleShape).clickable(onClick = { onAddStoryClicked.invoke() })
                 )
                 Box(
-                    modifier = Modifier.preferredSize(20.dp).clip(CircleShape)
+                    modifier = Modifier.size(20.dp).clip(CircleShape)
                         .background(blue)
                         .border(
                             width = 2.dp,

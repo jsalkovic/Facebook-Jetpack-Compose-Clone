@@ -30,7 +30,7 @@ fun Splash(navController: NavHostController) {
         ) {
             CircleImage(
                 model = R.drawable.ic_facebook,
-                modifier = Modifier.preferredSize(width = 56.dp, height = 56.dp).padding(0.dp)
+                modifier = Modifier.size(width = 56.dp, height = 56.dp).padding(0.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             CircularProgressIndicator(

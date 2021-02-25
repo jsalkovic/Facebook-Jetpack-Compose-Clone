@@ -39,15 +39,12 @@ private fun InputField(hintLabel: String, onSendClick: (String) -> Unit) {
     var sendButtonEnabled by remember { mutableStateOf(false) }
     TextField(
         value = text,
-        textStyle = TextStyle(color = blue),
         onValueChange = { changedText ->
             text = changedText
             sendButtonEnabled = changedText.isNotEmpty()
         },
         modifier = Modifier.fillMaxWidth().height(56.dp),
-        inactiveColor = MaterialTheme.colors.onPrimary,
-        activeColor = blue,
-        backgroundColor = Color.Transparent,
+        textStyle = TextStyle(color = blue),
         label = {
             Text(
                 text = hintLabel,
@@ -57,7 +54,7 @@ private fun InputField(hintLabel: String, onSendClick: (String) -> Unit) {
         singleLine = true,
         trailingIcon = {
             IconButton(
-                modifier = Modifier.preferredSize(24.dp),
+                modifier = Modifier.size(24.dp),
                 content = {
                     Icon(
                         painterResource(id = R.drawable.ic_send),
@@ -74,6 +71,10 @@ private fun InputField(hintLabel: String, onSendClick: (String) -> Unit) {
                     }
                 }
             )
-        }
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = blue,
+            cursorColor = blue,
+        )
     )
 }

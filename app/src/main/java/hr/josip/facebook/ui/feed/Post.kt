@@ -137,7 +137,7 @@ fun Likes(post: Post, onLikeClicked: (Post) -> Unit) {
             Image(
                 painterResource(id = R.drawable.ic_thumb_up),
                 contentDescription = stringResource(id = R.string.app_name),
-                modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
+                modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
                 colorFilter = if (post.isLikedByCurrentUser) ColorFilter.tint(blue) else ColorFilter.tint(
                     MaterialTheme.colors.onSurface
                 )
@@ -163,7 +163,7 @@ private fun Comments(post: Post) {
             Image(
                 painterResource(id = R.drawable.ic_comment),
                 contentDescription = stringResource(id = R.string.app_name),
-                modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
+                modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
             )
             Text(
@@ -188,7 +188,7 @@ private fun Share(post: Post, onShareClicked: (Post) -> Unit) {
             Image(
                 painterResource(id = R.drawable.ic_share),
                 contentDescription = stringResource(id = R.string.app_name),
-                modifier = Modifier.preferredSize(24.dp).align(Alignment.CenterVertically),
+                modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
             )
             Text(

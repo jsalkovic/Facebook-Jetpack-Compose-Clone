@@ -11,6 +11,6 @@ fun Screen(
 ) {
     Scaffold(
         topBar = topBar,
-        bodyContent = content
+        content = content
     )
 }

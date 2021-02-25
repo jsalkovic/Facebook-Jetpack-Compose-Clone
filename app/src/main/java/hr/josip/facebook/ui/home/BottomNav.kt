@@ -1,7 +1,7 @@
 package hr.josip.facebook.ui.home
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -61,7 +61,7 @@ fun SetupBottomNav(
                     if (screen is HomeScreen.Profile)
                         CircleImage(
                             model = user.avatarUrl,
-                            modifier = Modifier.preferredSize(width = 24.dp, height = 24.dp)
+                            modifier = Modifier.size(width = 24.dp, height = 24.dp)
                         )
                     else Icon(
                         painterResource(id = screen.drawableId),
