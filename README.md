@@ -4,7 +4,7 @@ Jetpack Compose clone of Facebook UI.
 ![Facebook Compose](https://josipsalkovic.com/facebook_compose.png)
 
 ## About
-Facebook Jetpack Compose Clone is an Facebook clone app built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose). Version of Jetpack Compose that was used in this project is `1.0.0-alpha09`.
+Facebook Jetpack Compose Clone is an Facebook clone app built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose). Version of Jetpack Compose that was used in this project is `1.0.0-alpha12`.
 
 This sample showcases:
 * Splash and Home screen
